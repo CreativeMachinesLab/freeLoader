@@ -14,6 +14,7 @@ class Dynamixel : public QObject
     Q_OBJECT
 public:
     explicit Dynamixel(QObject *parent = 0, QDomElement configfile);
+    ~Dynamixel();
 
     float getAngle();
 
@@ -28,6 +29,7 @@ public slots:
     void setSpeed(float mmPerMin); // Sets the speed of the unit and runs any future PID control loop. +=CW -=CCW
     void setAlpha(float a);
     void setBeta(float b);
+    void stop();
 
 
 signals:

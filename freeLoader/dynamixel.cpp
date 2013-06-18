@@ -9,6 +9,15 @@ Dynamixel::Dynamixel(QObject *parent, QDomElement configfile) :
     // LOAD CONFIG FILE
 }
 
+Dynamixel::~Dynamixel(){
+    if(initialized_){
+        ftStatus = FT_Close(ftHandleDYNA);
+        if (ftStatus != FT_OK){
+            emit failedToClose();
+        }
+    }
+}
+
 
 float Dynamixel::getAngle(){
     if(initialized_){
@@ -42,6 +51,31 @@ float Dynamixel::internalSpeedToSpeed(int speedinticks){
 }
 
 void Dynamixel::connect(){ // Initiallizes the motor and generates the ftHandleDYNA
+    ftStatus = FT_OpenEx(serialNumber_,FT_OPEN_BY_SERIAL_NUMBER,&ftHandleDYNA_);
+    if (ftStatus != FT_OK)
+    {
+        emit failedToOpen();
+        Sleep(2000);
+        return;
+    }
 
+    //Initialize the USB2Dynamixel
+
+    initialized_=DYNA_initialize(ftHandleDYNA_);
+    if(!initialized_){
+        emit failedToOpen();\
+        return;
+    }
+    Sleep(50);
 }
-void Dynamixel::setSpeed(float mmPerMin){} // Sets the speed of the unit and runs any future PID control loop. +=CW -=CCW
+
+void Dynamixel::setSpeed(float mmPerMin){ // Sets the speed of the unit and runs any future PID control loop. +=CW -=CCW
+    if(!initialized_){return;}
+    int speed = speedToInternalSpeed(mmPerMin);
+    motor_spin(ftHandleDYNA_,motorNumber_,speed);
+}
+
+void Dynamixel::stop(){
+    if(!initialized_){return;}
+    motor_spin(ftHandleDYNA_,motorNumber_,0);
+}

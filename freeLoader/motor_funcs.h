@@ -55,7 +55,7 @@ FT_STATUS ft_status;
 
 
 
-int DYNA_initialize(FT_HANDLE ftHandleDYNA)
+bool DYNA_initialize(FT_HANDLE ftHandleDYNA)
 {
 	ft_status = FT_ResetDevice(ftHandleDYNA);
 	if( ft_status != FT_OK )
@@ -89,12 +89,12 @@ int DYNA_initialize(FT_HANDLE ftHandleDYNA)
 	if( ft_status != FT_OK )
 		goto DYNA_init_error;
 
-	return 1;
+    return true;
 
 DYNA_init_error:
 	std::cout << "\n\nUSB2Dynamixel Initialization Error!";
 	FT_Close(ftHandleDYNA);
-	return 0;
+    return false;
 }
 
 
