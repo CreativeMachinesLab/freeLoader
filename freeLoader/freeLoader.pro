@@ -16,7 +16,8 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     testdata.cpp \
     dynamixel.cpp \
-    loadcell.cpp
+    loadcell.cpp \
+    configfilemanager.cpp
 
 
 HEADERS  += mainwindow.h\
@@ -25,6 +26,7 @@ HEADERS  += mainwindow.h\
         tic_toc.h \
     testdata.h \
     dynamixel.h \
-    loadcell.h
+    loadcell.h \
+    configfilemanager.h
 
 FORMS    += mainwindow.ui
