@@ -1,6 +1,8 @@
 #include "dynamixel.h"
+#include "ftd2xx.h"
+#include "motor_funcs.h"
 
-Dynamixel::Dynamixel(QObject *parent, QDomElement configfile) :
+Dynamixel::Dynamixel(QDomElement configfile, QObject *parent) :
     QObject(parent),initialized_(false), motorNumber_(1),countsPerRevolution_(1005),
     alpha_(-39.7760880746),beta_(0.0362830709),
     maxSpeedCW_(2045),minSpeedCW_(1025),
@@ -11,7 +13,7 @@ Dynamixel::Dynamixel(QObject *parent, QDomElement configfile) :
 
 Dynamixel::~Dynamixel(){
     if(initialized_){
-        ftStatus = FT_Close(ftHandleDYNA);
+        FT_STATUS ftStatus = FT_Close(ftHandleDYNA_);
         if (ftStatus != FT_OK){
             emit failedToClose();
         }else{
@@ -46,14 +48,14 @@ void Dynamixel::setAlpha(float a){alpha_=a;}
 void Dynamixel::setBeta(float b){beta_=b;}
 
 int Dynamixel::speedToInternalSpeed(float speedInMMperMin){
-    return (speedInMMperMin-beta)/alpha;
+    return (speedInMMperMin-beta_)/alpha_;
 }
 float Dynamixel::internalSpeedToSpeed(int speedinticks){
-    return alpha*speedinticks+beta;
+    return alpha_*speedinticks+beta_;
 }
 
 void Dynamixel::connect(){ // Initiallizes the motor and generates the ftHandleDYNA
-    ftStatus = FT_OpenEx(serialNumber_,FT_OPEN_BY_SERIAL_NUMBER,&ftHandleDYNA_);
+    FT_STATUS ftStatus = FT_OpenEx(serialNumber_,FT_OPEN_BY_SERIAL_NUMBER,&ftHandleDYNA_);
     if (ftStatus != FT_OK)
     {
         emit failedToOpen();

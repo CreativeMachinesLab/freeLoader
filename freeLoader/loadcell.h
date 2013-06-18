@@ -2,14 +2,14 @@
 #define LOADCELL_H
 
 #include <QObject>
-#include <QDomDocument>
+#include <QtXML/QDomDocument>
 #include <Windows.h>
 
 class LoadCell : public QObject
 {
     Q_OBJECT
 public:
-    explicit LoadCell(QObject *parent = 0, QDomElement config);
+    explicit LoadCell( QDomElement config, QObject *parent = 0);
 
     bool Open();
     float readLoad();

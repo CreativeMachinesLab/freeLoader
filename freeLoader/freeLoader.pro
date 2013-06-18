@@ -17,7 +17,8 @@ SOURCES += main.cpp\
     testdata.cpp \
     dynamixel.cpp \
     loadcell.cpp \
-    configfilemanager.cpp
+    configfilemanager.cpp \
+    motor_funcs.cpp
 
 
 HEADERS  += mainwindow.h\
@@ -29,4 +30,14 @@ HEADERS  += mainwindow.h\
     loadcell.h \
     configfilemanager.h
 
+
 FORMS    += mainwindow.ui
+
+
+win32: LIBS += -LC:/Users/Ethan/Documents/GitHub/freeLoader/libs -lftd2xx
+
+INCLUDEPATH += C:/Users/Ethan/Documents/GitHub/freeLoader/libs
+DEPENDPATH += C:/Users/Ethan/Documents/GitHub/freeLoader/libs
+
+
+win32: PRE_TARGETDEPS += C:/Users/Ethan/Documents/GitHub/freeLoader/libs/ftd2xx.lib

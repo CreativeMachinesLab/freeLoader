@@ -9,8 +9,7 @@ class TestData : public QObject
 {
     Q_OBJECT
 public:
-    explicit TestData(QObject *parent = 0);
-    TestData(QString filename);
+    explicit TestData(QString filename, QObject *parent = 0);
 
     QString getFileName();
 

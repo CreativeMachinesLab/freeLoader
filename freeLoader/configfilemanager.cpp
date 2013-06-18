@@ -1,6 +1,6 @@
 #include "configfilemanager.h"
 
-ConfigFileManager::ConfigFileManager(QObject *parent = 0): QObject(parent)
+ConfigFileManager::ConfigFileManager(QObject *parent): QObject(parent)
 {
     ConfigFileDir_ = QDir(QDir::currentPath()+"\\\\configs");
     if(!ConfigFileDir_.exists()){
@@ -24,7 +24,8 @@ QList<QString> ConfigFileManager::getFileNames(){// returns list of config files
 }
 
 QVector<QDomElement> ConfigFileManager::parseFile(QString name){//returns dynamixel and loadcell configs
-    if (!files_.contains(name)){return QVector<QDomElement>();}
-
+    QVector<QDomElement> parsed;
+    if (!files_.contains(name)){return parsed;}
+    return parsed;
     /// NEED TO WRITE CONFIG FILE PARSER
 }

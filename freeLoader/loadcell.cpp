@@ -1,8 +1,7 @@
 #include "loadcell.h"
 
-LoadCell::LoadCell(QObject *parent, QDomElement config) :
+LoadCell::LoadCell(QDomElement config, QObject *parent) :
     QObject(parent),
-    comID_(''),
     initialized_(false),
     ReadIntervalTimeout_(50),
     ReadTotalTimeoutConstant_(50),
@@ -27,7 +26,7 @@ LoadCell::LoadCell(QObject *parent, QDomElement config) :
 bool LoadCell::Open(){
 
 //Open serial port at comID
-    hSerial_ = CreateFileW(	comID.c_str(),
+    hSerial_ = CreateFileW(	comID_.toStdWString().c_str(),
                             GENERIC_READ | GENERIC_WRITE,
                             0,
                             0,

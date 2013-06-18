@@ -4,7 +4,8 @@
 #include <QObject>
 #include "ftd2xx.h"
 #include "motor_funcs.h"
-#include <QDomDocument>
+#include <QtXML/QDomDocument>
+
 
 typedef char serialnumber[64];
 
@@ -13,7 +14,7 @@ class Dynamixel : public QObject
 {
     Q_OBJECT
 public:
-    explicit Dynamixel(QObject *parent = 0, QDomElement configfile);
+    explicit Dynamixel( QDomElement configfile,QObject *parent = 0);
     ~Dynamixel();
 
     float getAngle();

@@ -1,13 +1,10 @@
 #include "testdata.h"
 
-TestData::TestData(QObject *parent) :
-    QObject(parent),filename_("")
+TestData::TestData(QString filename, QObject *parent) :
+    QObject(parent),filename_(filename)
 {
 }
 
-TestData::TestData(QString filename):filename_(filename)
-{
-}
 
 QString TestData::getFileName(){
     return QString(filename_);
@@ -18,7 +15,7 @@ void TestData::setFileName(QString filename){
 }
 void TestData::addData(QVector<float> datapoint){
     if(datapoint.size()==3){
-        data_.append(data);
+        data_.append(datapoint);
     }
 }
 

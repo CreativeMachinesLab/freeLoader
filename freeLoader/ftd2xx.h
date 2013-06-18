@@ -42,7 +42,7 @@ Revision History:
 #ifndef FTD2XX_H
 #define FTD2XX_H
 
-#include <Windows.h>
+
 
 // The following ifdef block is the standard way of creating macros
 // which make exporting from a DLL simpler.  All files within this DLL
@@ -58,6 +58,7 @@ Revision History:
 #define FTD2XX_API __declspec(dllimport)
 #endif
 
+#include <Windows.h>
 
 typedef PVOID	FT_HANDLE;
 typedef ULONG	FT_STATUS;
