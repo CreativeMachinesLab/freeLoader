@@ -15,7 +15,8 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     testdata.cpp \
-    dynamixel.cpp
+    dynamixel.cpp \
+    loadcell.cpp
 
 
 HEADERS  += mainwindow.h\
@@ -23,6 +24,7 @@ HEADERS  += mainwindow.h\
         motor_funcs.h\
         tic_toc.h \
     testdata.h \
-    dynamixel.h
+    dynamixel.h \
+    loadcell.h
 
 FORMS    += mainwindow.ui

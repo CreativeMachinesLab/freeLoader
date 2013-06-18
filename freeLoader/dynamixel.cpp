@@ -14,6 +14,8 @@ Dynamixel::~Dynamixel(){
         ftStatus = FT_Close(ftHandleDYNA);
         if (ftStatus != FT_OK){
             emit failedToClose();
+        }else{
+            emit closed();
         }
     }
 }
