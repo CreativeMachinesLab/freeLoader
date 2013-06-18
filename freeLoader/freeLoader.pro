@@ -13,12 +13,14 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    testdata.cpp
 
 
 HEADERS  += mainwindow.h\
         ftd2xx.h\
         motor_funcs.h\
-        tic_toc.h
+        tic_toc.h \
+    testdata.h
 
 FORMS    += mainwindow.ui
