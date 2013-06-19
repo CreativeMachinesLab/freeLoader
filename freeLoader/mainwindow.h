@@ -35,7 +35,7 @@ public slots:
     void jogSpinUpdated();
     void jogSliderUpdated();
     void testSpinUpdated();
-    void testSpinUpdated();
+    void testSliderUpdated();
 
 private:
     Ui::MainWindow *ui;
