@@ -24,9 +24,9 @@ int main(int argc, char *argv[])
     qDebug()<<"angle: "<<d.getAngle();
     d.stop();*/
 
-    LoadCell l(e,0);
-    l.open();
+    //LoadCell l(e,0);
+    //l.open();
 
-    qDebug()<<"Load: "<<l.readLoad();
+    //qDebug()<<"Load: "<<l.readLoad();
     return a.exec();
 }
