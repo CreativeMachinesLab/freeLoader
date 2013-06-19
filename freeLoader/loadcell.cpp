@@ -14,6 +14,7 @@ LoadCell::LoadCell(QDomElement config, QObject *parent) :
     ByteSize_(8),
     StopBits_(ONESTOPBIT),
     Parity_(NOPARITY),
+    maxForce_(12),
     mlbfToN(0.00444822162)
 
 {
@@ -154,5 +155,9 @@ float LoadCell::readLoad(){
 
     //Convert load cell buffer to Newtons
     float load = mlbfToN*atof(SZBuff);
+    if(load >=maxForce_){
+        qDebug()<<"Max Force reached";
+        emit maxForceReached();
+    }
     return load;
 }

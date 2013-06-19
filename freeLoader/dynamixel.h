@@ -44,7 +44,6 @@ private:
     float internalSpeedToSpeed(int speedinticks);
 
     serialnumber serialNumber_;
-    char* sn_;
     FT_HANDLE ftHandleDYNA_;
     bool initialized_;
 

@@ -20,6 +20,7 @@ signals:
     void closed();
     void failedToClose();
     void failedToRead();
+    void maxForceReached();
     
 public slots:
     
@@ -36,6 +37,7 @@ private:
     int ByteSize_ ;
     int StopBits_ ;
     int Parity_ ;
+    float maxForce_;
     float mlbfToN;
 };
 

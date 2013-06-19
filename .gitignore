@@ -12,13 +12,19 @@
 *.la
 *.a
 
-# Build dir
+# Build
 /builds
 /release
 /debug
-.debug
-.release
-MakeFile
 /moc
 /obj
 /bin
+*.debug
+*.release
+MakeFile*
+*.obj
+moc_*
+
+#QtCreator
+ui_*.h
+*.user
