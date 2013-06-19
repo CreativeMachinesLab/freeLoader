@@ -27,4 +27,4 @@ moc_*
 
 #QtCreator
 ui_*.h
-*.user
+*.pro.user
