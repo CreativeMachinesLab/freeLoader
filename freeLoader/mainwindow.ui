@@ -36,7 +36,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="setupPage">
        <property name="sizePolicy">
@@ -99,6 +99,9 @@
                      <property name="text">
                       <string>/\</string>
                      </property>
+                     <property name="shortcut">
+                      <string>Up</string>
+                     </property>
                     </widget>
                    </item>
                    <item>
@@ -111,6 +114,9 @@
                      </property>
                      <property name="text">
                       <string>\/</string>
+                     </property>
+                     <property name="shortcut">
+                      <string>Down</string>
                      </property>
                     </widget>
                    </item>
@@ -816,6 +822,9 @@
               </property>
               <property name="text">
                <string>End Test</string>
+              </property>
+              <property name="shortcut">
+               <string>Space</string>
               </property>
              </widget>
             </item>
