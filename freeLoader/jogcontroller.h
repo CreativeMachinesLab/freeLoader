@@ -12,13 +12,15 @@ public:
     explicit JogController(Gantry* gant, QObject *parent = 0);
 
 signals:
-    void state(QVector<float>);
+    void position(float);
 
 public slots:
     void setSpeed(float speed);
     void setHome();
     void setHome(float distinmm);
-    QVector<float> getState();
+    float getPostion();
+    void start();
+    void stop();
 
 
 private:
