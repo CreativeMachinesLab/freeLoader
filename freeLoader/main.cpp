@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     w.show();
     
     QDomElement e;
-    Dynamixel d( e,0);
+    /*Dynamixel d( e,0);
     d.connect();
     qDebug()<<"angle: "<<d.getAngle();
     d.setAlpha(1.0);
@@ -22,6 +22,11 @@ int main(int argc, char *argv[])
     d.setSpeed(250);
     Sleep(1000);
     qDebug()<<"angle: "<<d.getAngle();
-    d.stop();
+    d.stop();*/
+
+    LoadCell l(e,0);
+    l.open();
+
+    qDebug()<<"Load: "<<l.readLoad();
     return a.exec();
 }

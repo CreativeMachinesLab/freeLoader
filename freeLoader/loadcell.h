@@ -11,7 +11,7 @@ class LoadCell : public QObject
 public:
     explicit LoadCell( QDomElement config, QObject *parent = 0);
 
-    bool Open();
+    bool open();
     float readLoad();
 
 signals:
@@ -24,7 +24,7 @@ signals:
 public slots:
     
 private:
-    QString comID_;
+    std::wstring comID_;
     HANDLE hSerial_;
     bool initialized_;
     int ReadIntervalTimeout_;

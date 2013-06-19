@@ -1,4 +1,6 @@
 #include "loadcell.h"
+#include <QDebug>
+#include <stdio.h>
 
 LoadCell::LoadCell(QDomElement config, QObject *parent) :
     QObject(parent),
@@ -17,16 +19,17 @@ LoadCell::LoadCell(QDomElement config, QObject *parent) :
 {
     ///SET THE CONFIGURATION FROM THE CONFIG FILE
     ///    std::wcin >> comNum;
-    ///    std::wstring comPrefix = L"\\\\.\\";
-    ///    std::wstring comID = comPrefix+comNum;
+        std::wstring comNum = L"com14";
+        std::wstring comPrefix = L"\\\\.\\";
+        comID_ = comPrefix+comNum;
 }
 
 
 
-bool LoadCell::Open(){
+bool LoadCell::open(){
 
 //Open serial port at comID
-    hSerial_ = CreateFileW(	comID_.toStdWString().c_str(),
+    hSerial_ = CreateFileW(	comID_.c_str(),
                             GENERIC_READ | GENERIC_WRITE,
                             0,
                             0,
@@ -35,6 +38,7 @@ bool LoadCell::Open(){
                             0);
     if(hSerial_==INVALID_HANDLE_VALUE)
     {
+        qDebug()<<"failed to open loadcell ";
         emit failedToOpen();
         Sleep(2000);
         return false;
@@ -47,7 +51,7 @@ bool LoadCell::Open(){
     if (!GetCommState(hSerial_, &dcbSerialParams))
     {
         emit failedToOpen();
-        /// std::cerr << "\n\nError getting port state!";
+        qDebug() << "\n\nError getting port state!";
         Sleep(2000);
         return false;
     }
@@ -60,7 +64,7 @@ bool LoadCell::Open(){
     if(!SetCommState(hSerial_, &dcbSerialParams))
     {
         emit failedToOpen();
-        ///std::cerr << "\n\nError setting port state!";
+        qDebug() << "\n\nError setting port state!";
         Sleep(2000);
         return false;
     }
@@ -76,7 +80,7 @@ bool LoadCell::Open(){
     if(!SetCommTimeouts(hSerial_, &timeouts))
     {
         emit failedToOpen();
-        //std::cerr << "\n\nError setting timeouts!";
+        qDebug() << "\n\nError setting timeouts!";
         Sleep(2000);
         return false;
     }
@@ -86,7 +90,7 @@ bool LoadCell::Open(){
     if(!WriteFile(hSerial_, "\r", 1, &dwBytesWrite, NULL))
     {
         emit failedToOpen();
-        ///std::cerr << "\n\n error occurred writing CR to port";
+        qDebug() << "\n\n error occurred writing CR to port";
         Sleep(2000);
         return false;
     }
@@ -99,13 +103,14 @@ bool LoadCell::Open(){
     if(!ReadFile(hSerial_, szBuff, 4, &dwBytesRead, NULL))
     {
         emit failedToOpen();
-        ///std::cerr << "error occurred reading the input buffer";
+        qDebug() << "error occurred reading the input buffer";
         Sleep(2000);
         return false;
     }
 
     initialized_=true;
     emit opened();
+    qDebug()<<"Opened Load Cell ";
 }
 float LoadCell::readLoad(){
     if(!initialized_){return 0;}
@@ -116,7 +121,7 @@ float LoadCell::readLoad(){
     //Write O0W1<CR> to the port (this sends a bad load but prepares the good load for sending)
     if(!WriteFile(hSerial_, "O0W1\r", 5, &dwBytesWrite, NULL)){
         emit failedToRead();
-        ///std::cerr << "\n\n error occurred writing O0W1<CR> to port";
+        qDebug() << "\n\n error occurred writing O0W1<CR> to port";
     }
 
 
@@ -126,14 +131,14 @@ float LoadCell::readLoad(){
     dwBytesRead = 0;
     if(!ReadFile(hSerial_, SzBuff, 12, &dwBytesRead, NULL)){
         emit failedToRead();
-        ///        std::cerr << "error occurred reading the load cell input buffer";
+        qDebug() << "error occurred reading the load cell input buffer";
     }
 
 
     //Write O0W1<CR> to the port (this sends the good load and prepares a the bad one for next loop)
     if(!WriteFile(hSerial_, "O0W1\r", 5, &dwBytesWrite, NULL)){
         emit failedToRead();
-        ///std::cerr << "\n\n error occurred writing O0W1<CR>  to port";
+        qDebug() << "\n\n error occurred writing O0W1<CR>  to port";
     }
 
 
@@ -143,7 +148,7 @@ float LoadCell::readLoad(){
     dwBytesRead = 0;
     if(!ReadFile(hSerial_, SZBuff, 12, &dwBytesRead, NULL)){
         emit failedToRead();
-        ///std::cerr << "error occurred reading the load cell input buffer";
+        qDebug()<< "error occurred reading the load cell input buffer";
     }
 
 
