@@ -34,10 +34,8 @@ HEADERS  += mainwindow.h\
 FORMS    += mainwindow.ui
 
 
-win32: LIBS += -LC:/Users/Ethan/Documents/GitHub/freeLoader/libs -lftd2xx
+LIBS += -L$$quote($$PWD/lib) -lftd2xx
 
-INCLUDEPATH += C:/Users/Ethan/Documents/GitHub/freeLoader/libs
-DEPENDPATH += C:/Users/Ethan/Documents/GitHub/freeLoader/libs
-
-
-win32: PRE_TARGETDEPS += C:/Users/Ethan/Documents/GitHub/freeLoader/libs/ftd2xx.lib
+MOC_DIR = moc
+OBJECTS_DIR = obj
+DESTDIR = bin

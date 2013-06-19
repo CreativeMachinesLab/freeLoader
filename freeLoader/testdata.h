@@ -27,7 +27,7 @@ signals:
 
 
 private:
-    QVector<QVector<float>> data_;
+    QVector< QVector<float> > data_;
     QString filename_;
 };
 

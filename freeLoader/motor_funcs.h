@@ -43,7 +43,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <fstream>		//for reading/writing to files
 #include <string>
 
-#pragma comment(lib, "ftd2xx.lib")
+//#pragma comment(lib, "ftd2xx.lib")
 
 bool DYNA_initialize(FT_HANDLE ftHandleDYNA);
 

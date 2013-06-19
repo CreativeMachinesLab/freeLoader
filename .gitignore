@@ -14,3 +14,11 @@
 
 # Build dir
 /builds
+/release
+/debug
+.debug
+.release
+MakeFile
+/moc
+/obj
+/bin
