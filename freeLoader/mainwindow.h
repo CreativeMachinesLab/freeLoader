@@ -19,12 +19,11 @@ public slots:
 
     void disableJog(bool disabled);
     void disableTestSettings(bool disabled);
-    void disableAll(bool disabled);
     void disableTesting(bool disabled);
 
     //set at dyna connect
-    void setTestSpeedMin(float min);
-    void setTestSpeedMax(float max);
+    void setSpeedMin(float min);
+    void setSpeedMax(float max);
 
     void testStarted();
     void testEnded();
@@ -41,6 +40,7 @@ private:
     Ui::MainWindow *ui;
     float minSpeed_;
     float maxSpeed_;
+    float ticksPerMMPerMin_;
 };
 
 #endif // MAINWINDOW_H

@@ -175,7 +175,7 @@
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_2">
                <item>
-                <widget class="QLabel" name="maxSpeedLabel">
+                <widget class="QLabel" name="maxJogSpeedLabel">
                  <property name="font">
                   <font>
                    <family>Calibri</family>
@@ -235,7 +235,7 @@
                 </layout>
                </item>
                <item>
-                <widget class="QLabel" name="minSpeedLabel">
+                <widget class="QLabel" name="minJogSpeedLabel">
                  <property name="font">
                   <font>
                    <family>Calibri</family>
@@ -477,7 +477,7 @@
                  <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_6">
                    <item>
-                    <widget class="QLabel" name="minSpeedLabel_2">
+                    <widget class="QLabel" name="minTestSpeedLabel">
                      <property name="font">
                       <font>
                        <family>Calibri</family>
@@ -501,7 +501,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLabel" name="maxSpeedLabel_2">
+                    <widget class="QLabel" name="maxTestSpeedLabel">
                      <property name="font">
                       <font>
                        <family>Calibri</family>
