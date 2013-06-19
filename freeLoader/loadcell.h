@@ -12,7 +12,9 @@ public:
     explicit LoadCell( QDomElement config, QObject *parent = 0);
 
     bool open();
+    bool isInitialized();
     float readLoad();
+
 
 signals:
     void failedToOpen();

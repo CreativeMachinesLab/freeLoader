@@ -12,10 +12,11 @@ class ConfigFileManager: public QObject
 public:
     explicit ConfigFileManager(QObject *parent = 0);
     QList<QString> getFileNames();// returns list of config files
-    QVector<QDomElement> parseFile(QString name);//returns dynamixel and loadcell configs
+    QDomElement loadFile(QString name);//returns dynamixel and loadcell configs
 
 signals:
     void noConfigs();
+    void failedToOpenFile();
 
 private:
     QDir ConfigFileDir_;

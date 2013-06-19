@@ -28,6 +28,10 @@ Dynamixel::~Dynamixel(){
 }
 
 
+bool Dynamixel::isInitialized(){
+    return initialized_;
+}
+
 float Dynamixel::getAngle(){
     if(initialized_){
         float angle =(float)read_encoder(ftHandleDYNA_, motorNumber_);

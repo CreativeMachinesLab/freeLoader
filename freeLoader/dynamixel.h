@@ -18,6 +18,7 @@ public:
     ~Dynamixel();
 
     float getAngle();
+    bool isInitialized();
 
     // Internal values from config. Used for UI display
     float getMaxSpeedCCW();

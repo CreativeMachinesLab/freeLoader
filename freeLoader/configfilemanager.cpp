@@ -23,9 +23,7 @@ QList<QString> ConfigFileManager::getFileNames(){// returns list of config files
     return files_;
 }
 
-QVector<QDomElement> ConfigFileManager::parseFile(QString name){//returns dynamixel and loadcell configs
-    QVector<QDomElement> parsed;
-    if (!files_.contains(name)){return parsed;}
-    return parsed;
-    /// NEED TO WRITE CONFIG FILE PARSER
-}
+ QDomElement loadFile(QString name){
+    /// Open file, load into a DOM structure
+    /// emit error if failed
+ }

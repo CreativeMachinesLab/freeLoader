@@ -113,6 +113,12 @@ bool LoadCell::open(){
     emit opened();
     qDebug()<<"Opened Load Cell ";
 }
+
+bool LoadCell::isInitialized(){
+    return initialized_;
+}
+
+
 float LoadCell::readLoad(){
     if(!initialized_){return 0;}
     DWORD dwBytesWrite = 0;

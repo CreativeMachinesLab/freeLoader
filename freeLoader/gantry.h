@@ -14,16 +14,16 @@ class Gantry : public QObject
 public:
     explicit Gantry(QDomElement configfile, QObject *parent = 0);
     // this will create the Dynamizel and Loacell at startup
-    // will connect loadcell.maxreached with dyanmixel.stop
+    // w1ill connect loadcell.maxreached with dyanmixel.stop
     // will connect at startio
 
-    bool hasDyna();
-    bool hasCell();
+    bool hasConnectedDyna();
+    bool hasConnectedCell();
     bool initialized();
 
     float position();
-    float getRange();
-    
+    float getMMPerRev();
+
 public slots:
     void setPosition(float positionInMM);
 
@@ -35,7 +35,6 @@ public:
 private:
     // Internal config
     float mmPerRev_;
-    float range_;
     float position_;
 
 };

@@ -19,8 +19,8 @@ public slots:
     void setHome();
     void setHome(float distinmm);
     float getPostion();
-    void start();
-    void stop();
+    void startMove();
+    void stopMove();
 
 
 private:
