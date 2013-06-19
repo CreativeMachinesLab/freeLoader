@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     dynamixel.cpp \
     loadcell.cpp \
     configfilemanager.cpp \
-    motor_funcs.cpp
+    motor_funcs.cpp \
+    gantry.cpp
 
 
 HEADERS  += mainwindow.h\
@@ -28,7 +29,8 @@ HEADERS  += mainwindow.h\
     testdata.h \
     dynamixel.h \
     loadcell.h \
-    configfilemanager.h
+    configfilemanager.h \
+    gantry.h
 
 
 FORMS    += mainwindow.ui
