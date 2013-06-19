@@ -1,6 +1,7 @@
 #include "dynamixel.h"
 #include "ftd2xx.h"
 #include "motor_funcs.h"
+#include <QDebug>
 
 Dynamixel::Dynamixel(QDomElement configfile, QObject *parent) :
     QObject(parent),initialized_(false), motorNumber_(1),countsPerRevolution_(1005),
@@ -9,6 +10,10 @@ Dynamixel::Dynamixel(QDomElement configfile, QObject *parent) :
     maxSpeedCCW_(1022),minSpeedCCW_(2)
 {
     // LOAD CONFIG FILE
+    // AD01UY23
+
+    strcpy(serialNumber_,"AD01UY23");//"A600cUyt"
+    qDebug()<< "name:"<< serialNumber_;
 }
 
 Dynamixel::~Dynamixel(){
@@ -25,7 +30,7 @@ Dynamixel::~Dynamixel(){
 
 float Dynamixel::getAngle(){
     if(initialized_){
-        float angle = float(read_encoder(ftHandleDYNA_, motorNumber_));
+        float angle =(float)read_encoder(ftHandleDYNA_, motorNumber_);
         return angle/countsPerRevolution_*360;
     }
     return 0;
@@ -58,6 +63,7 @@ void Dynamixel::connect(){ // Initiallizes the motor and generates the ftHandleD
     FT_STATUS ftStatus = FT_OpenEx(serialNumber_,FT_OPEN_BY_SERIAL_NUMBER,&ftHandleDYNA_);
     if (ftStatus != FT_OK)
     {
+        qDebug()<<"failed to open";
         emit failedToOpen();
         Sleep(2000);
         return;
@@ -67,16 +73,19 @@ void Dynamixel::connect(){ // Initiallizes the motor and generates the ftHandleD
 
     initialized_=DYNA_initialize(ftHandleDYNA_);
     if(!initialized_){
-        emit failedToOpen();\
+        qDebug()<<"failed to initialize";
+        emit failedToOpen();
         return;
     }
     Sleep(50);
+    qDebug()<< "OPENED!";
 }
 
 void Dynamixel::setSpeed(float mmPerMin){ // Sets the speed of the unit and runs any future PID control loop. +=CW -=CCW
     if(!initialized_){return;}
     int speed = speedToInternalSpeed(mmPerMin);
     motor_spin(ftHandleDYNA_,motorNumber_,speed);
+    qDebug()<<"Speed: "<<speed;
 }
 
 void Dynamixel::stop(){

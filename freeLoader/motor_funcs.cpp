@@ -1,4 +1,5 @@
 #include "motor_funcs.h"
+#include <QDebug>
 
 #define ID					(2)
 #define LENGTH				(3)
@@ -57,7 +58,7 @@ bool DYNA_initialize(FT_HANDLE ftHandleDYNA)
     return true;
 
 DYNA_init_error:
-    std::cout << "\n\nUSB2Dynamixel Initialization Error!";
+    qDebug() << "\n\nUSB2Dynamixel Initialization Error!";
     FT_Close(ftHandleDYNA);
     return false;
 }
@@ -108,6 +109,12 @@ int motor_spin(FT_HANDLE ftHandleDYNA, int motorNum, int speed)
         checksum += InstructionPacket[i+2];
     InstructionPacket[InstructionPacket[LENGTH]+3] = ~checksum;
 
+/*    qDebug()<<"Packet:";
+    qDebug()<<InstructionPacket[0]<<" "<<InstructionPacket[1]<<" "
+            <<InstructionPacket[ID] <<" "<<InstructionPacket[LENGTH] <<" "
+            <<InstructionPacket[INSTRUCTION] <<" " <<InstructionPacket[PARAMETER]<<" "
+            <<InstructionPacket[PARAMETER+1] <<" "<< InstructionPacket[PARAMETER+2];
+*/
     //send the packet
     unsigned char *pPacket = InstructionPacket;
     int numPacket = 9; //length plus 4
@@ -117,12 +124,12 @@ int motor_spin(FT_HANDLE ftHandleDYNA, int motorNum, int speed)
     ft_status = FT_Write(ftHandleDYNA, (LPVOID)pPacket, dwNumToWrite, &dwNumWritten );
     if( ft_status == FT_IO_ERROR )
     {
-        std::cout << "\n\nError sending packet to motor!";
+        qDebug() << "\n\nError sending packet to motor!";
         return 0;
     }
     if(numPacket != dwNumWritten)
     {
-        std::cout << "\n\nAll Bytes were not written to device!";
+        qDebug() << "\n\nAll Bytes were not written to device!";
         return 0;
     }
 
@@ -160,12 +167,12 @@ int read_encoder(FT_HANDLE ftHandleDYNA, int motorNum)
     ft_status = FT_Write(ftHandleDYNA, (LPVOID)pPacket, dwNumToWrite, &dwNumWritten );
     if( ft_status == FT_IO_ERROR )
     {
-        std::cout << "\n\nError sending encoder packet to motor!";
+        qDebug() << "\n\nError sending encoder packet to motor!";
         return 0;
     }
     if(numPacket != dwNumWritten)
     {
-        std::cout << "\n\nAll Bytes of encoder packet were not written to device!";
+        qDebug() << "\n\nAll Bytes of encoder packet were not written to device!";
         return 0;
     }
 
@@ -177,7 +184,7 @@ int read_encoder(FT_HANDLE ftHandleDYNA, int motorNum)
     ft_status = FT_GetQueueStatus(ftHandleDYNA, &dwNumToRead );
     if( ft_status != FT_OK )
     {
-        std::cout << "\n\nError receiving encoder status packet, Queue not empty!";
+        qDebug() << "\n\nError receiving encoder status packet, Queue not empty!";
         return 0;
     }
     if( dwNumToRead > 0 )
@@ -185,9 +192,11 @@ int read_encoder(FT_HANDLE ftHandleDYNA, int motorNum)
         ft_status = FT_Read(ftHandleDYNA, (LPVOID)ppPacket, dwNumToRead, &dwNumRead );
         if( ft_status == FT_IO_ERROR )
         {
-            std::cout << "\n\nError reading encoder value!";
+            qDebug() << "\n\nError reading encoder value!";
             return 0;
         }
+    }else{
+        qDebug()<<"\n\nERROR: dwNumToRead = 0";
     }
 
     return makeword((int)StatusPacket[PARAMETER], (int)StatusPacket[PARAMETER+1]);
