@@ -5,7 +5,7 @@ Implementation:
 * write files to CSV in testdata
 * config loading for dyanmixel
 * config loading for loadcell
-* Gantry config loading
+* Gantry Constructor / config loading
 * calculateCurrentPosition
 
 
