@@ -17,25 +17,13 @@ public:
     // w1ill connect loadcell.maxreached with dyanmixel.stop
     // will connect at startio
 
-    bool hasConnectedDyna();
-    bool hasConnectedCell();
-    bool initialized();
-
-    float position();
-    float getMMPerRev();
-
-public slots:
-    void setPosition(float positionInMM);
-
 
 public:
     Dynamixel* dyna;
     LoadCell* cell;
+    float mmPerRev;
+    float position;
 
-private:
-    // Internal config
-    float mmPerRev_;
-    float position_;
 
 };
 
