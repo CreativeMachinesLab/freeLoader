@@ -23,6 +23,7 @@ public:
     LoadCell* cell;
     float mmPerRev;
     float position;
+    int updateIntervalInMS;
 
 
 };

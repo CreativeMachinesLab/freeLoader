@@ -13,6 +13,11 @@ QString TestData::getFileName(){
 void TestData::setFileName(QString filename){
     filename_=filename;
 }
+
+void TestData::clearData(){
+    data_.clear();
+}
+
 void TestData::addData(QVector<float> datapoint){
     if(datapoint.size()==3){
         data_.append(datapoint);

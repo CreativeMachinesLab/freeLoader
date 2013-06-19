@@ -15,6 +15,7 @@ public:
 
 
 public slots:
+    void clearData();
     void setFileName(QString filename);
     void addData(QVector<float> datapoint);
     void addData(int time, float mm, float newtons);

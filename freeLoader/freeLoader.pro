@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     configfilemanager.cpp \
     motor_funcs.cpp \
     gantry.cpp \
-    jogcontroller.cpp
+    jogcontroller.cpp \
+    experimentcontroller.cpp
 
 
 HEADERS  += mainwindow.h\
@@ -32,7 +33,8 @@ HEADERS  += mainwindow.h\
     loadcell.h \
     configfilemanager.h \
     gantry.h \
-    jogcontroller.h
+    jogcontroller.h \
+    experimentcontroller.h
 
 
 FORMS    += mainwindow.ui
@@ -45,4 +47,5 @@ OBJECTS_DIR = obj
 DESTDIR = bin
 
 OTHER_FILES += \
-    default.config
+    default.config \
+    todos.txt

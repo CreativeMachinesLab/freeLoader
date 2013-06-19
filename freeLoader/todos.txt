@@ -1,0 +1,13 @@
+TODO:
+
+Implementation:
+* Load config files in config file manager
+* write files to CSV in testdata
+* config loading for dyanmixel
+* config loading for loadcell
+* Gantry config loading
+* calculateCurrentPosition
+
+
+Conceptual
+* system for querying the potential serial numbers and comports
