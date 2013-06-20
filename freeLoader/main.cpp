@@ -12,7 +12,10 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
-    
+    w.disableJog(true);
+    w.disableTesting(true);
+    w.disableTestSettings(true);
+
     QDomElement e;
     /*Dynamixel d( e,0);
     d.connect();
@@ -28,11 +31,5 @@ int main(int argc, char *argv[])
     //l.open();
 
     //qDebug()<<"Load: "<<l.readLoad();
-    w.setSpeedMax(30.0);
-    w.setSpeedMin(0.1);
-    QVector<float> d(3,10.0);
-    w.addPoint(d);
-    w.addPoint(d);
-    w.addPoint(d);
     return a.exec();
 }
