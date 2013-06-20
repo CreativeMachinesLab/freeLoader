@@ -1,10 +1,15 @@
 #include "jogcontroller.h"
 #include "tic_toc.h"
 #include <math.h>
+#include <QDebug>
 
 JogController::JogController(Gantry *gant, QObject *parent) :
     QObject(parent),speed_(1.0), currDirection_(1)
 {
+    gant_=gant;
+    stoptimer_=new QTimer();
+    updatetimer_ = new QTimer();
+
     stoptimer_->setSingleShot(true);
     updatetimer_->setInterval(gant->updateIntervalInMS);
     connect(updatetimer_,SIGNAL(timeout()),this,SLOT(updateState()));
@@ -16,7 +21,7 @@ JogController::JogController(Gantry *gant, QObject *parent) :
 /// We would need to put a flag in the gant object to signify ownership of the commands by a particular object
 
 float JogController::calculateCurrentPosition(QVector<float> state ){
-    /// TO BE WRITTEN BY ETHAN BASED ON THE MATLAB
+
     //deadzone is angle<5 or angle>1005 clicks
     //if each click is 45/128 degrees, that means
     //less than 1.76 degrees or greater than 353.33 degrees
@@ -69,22 +74,23 @@ void JogController::setSpeed(float speed){ // speed is in ABS values here
     speed_=fabs(speed);
 }
 void JogController::setHome(){
+    stopMove();
     setHome(0);
 }
 void JogController::setHome(float distinmm){
-    gant->position=distinmm;
+    gant_->position=distinmm;
 }
 void JogController::goHome(){
-    float time = fabs(gant->position/speed_);
-    int direction = (int) gant->position/fabs(gant->position);
+    float time = fabs(gant_->position/speed_);
+    int direction = (int) gant_->position/fabs(gant_->position);
     move(speed_,time,direction);
 }
 
 void JogController::jogUp(){
-    move(speed_,0.1*1000,1);
+    move(speed_,0.1/60.0,1);
 }
 void JogController::jogDown(){
-    move(speed_,0.1*1000,-1);
+    move(speed_,0.1/60.0,-1);
 }
 
 void JogController::move(float speed, float timeInMin, int direction){ // we may need to flip directions
@@ -97,19 +103,26 @@ void JogController::move(float speed, float timeInMin, int direction){ // we may
 
 void JogController::startMove(){
     updatetimer_->start();
-    gant->dyna->setSpeed(speed_);
+    gant_->dyna->setSpeed(speed_);
+    qDebug()<<"starting move";
 }
 void JogController::stopMove(){
-    gant->dyna->stop();
+    gant_->dyna->stop();
     updatetimer_->stop();
     stoptimer_->stop();
+    qDebug()<<"ending move";
 }
 
 
 void JogController::updateState(){
     float position=0;
     float angle= gant->dyna->getAngle();
-    float load = gant->cell->readLoad();
+    float position = calculateCurrentPosition( gant_->dyna->getAngle());
+    float load=0;
+
+    if(gant_->cell->isInitialized()){
+         load = gant_->cell->readLoad();
+    }
     float time = (float)milliseconds();
     QVector<float> state(2,0);
     state[0] = time;
@@ -122,7 +135,7 @@ void JogController::updateState(){
     datapoint[1]=position;
     datapoint[2]=load;
 
-    gant->position=position;
+    gant_->position=position;
     lastState_=state;
     emit dataPoint(datapoint);
 

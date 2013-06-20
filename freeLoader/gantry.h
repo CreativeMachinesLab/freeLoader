@@ -12,7 +12,7 @@ class Gantry : public QObject
 {
     Q_OBJECT
 public:
-    explicit Gantry(QDomElement configfile, QObject *parent = 0);
+    explicit Gantry(QDomNode configfile, QObject *parent = 0);
     // this will create the Dynamizel and Loacell at startup
     // w1ill connect loadcell.maxreached with dyanmixel.stop
     // will connect at startio

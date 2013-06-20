@@ -18,3 +18,19 @@ Conceptual
 * system for querying the potential serial numbers and comports
 
 
+<<<<<<< HEAD
+=======
+char Buffer [3][64]; // more than enough room, maximum 3 USB to serial devices
+for(int i=0;i<numDevs;i++) //for each device detected
+{
+        devIndex = i;
+        ftStatus = FT_ListDevices((PVOID)devIndex,Buffer[i],FT_LIST_BY_INDEX|FT_OPEN_BY_SERIAL_NUMBER);
+        if (ftStatus == FT_OK)
+                std::cout << "\n Device " << i+1 << " serial number: " << Buffer[i];
+        else
+        {
+                std::cerr << "\nFT_ListDevices failed to get serial number!";
+                Sleep(2000);
+            return 0;
+        }
+>>>>>>> origin/master

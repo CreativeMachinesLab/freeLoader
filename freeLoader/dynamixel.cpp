@@ -161,7 +161,10 @@ void Dynamixel::connect(){ // Initiallizes the motor and generates the ftHandleD
 }
 
 void Dynamixel::setSpeed(float mmPerMin){ // Sets the speed of the unit and runs any future PID control loop. +=CW -=CCW
-    if(!initialized_){return;}
+    if(!initialized_){
+        qDebug()<<"Got set speed "<< mmPerMin << "while not initialized";
+        return;
+    }
     int dir=mmPerMin/fabs(mmPerMin);
     qDebug()<<"dir: "<<dir;
     int speed = speedToInternalSpeed(mmPerMin,dir);
@@ -170,6 +173,9 @@ void Dynamixel::setSpeed(float mmPerMin){ // Sets the speed of the unit and runs
 }
 
 void Dynamixel::stop(){
-    if(!initialized_){return;}
+    if(!initialized_){
+        qDebug()<<"Got stop command while not initialized";
+        return;
+    }
     motor_spin(ftHandleDYNA_,motorNumber_,0);
 }

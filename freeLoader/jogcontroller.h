@@ -2,7 +2,7 @@
 #define JOGCONTROLLER_H
 
 #include <QObject>
-#include <gantry.h>
+#include "gantry.h"
 #include <QTimer>
 
 class JogController : public QObject
@@ -38,7 +38,7 @@ signals:
 public:
     QTimer *updatetimer_; //  only on when moving !=0
     QTimer *stoptimer_;
-    Gantry *gant;
+    Gantry *gant_;
     float speed_;
 
 private:

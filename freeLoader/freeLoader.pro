@@ -21,7 +21,10 @@ SOURCES += main.cpp\
     motor_funcs.cpp \
     gantry.cpp \
     jogcontroller.cpp \
-    experimentcontroller.cpp
+    experimentcontroller.cpp \
+    mastercontrolunit.cpp \
+    configdialog.cpp \
+    serialdiscoverydialog.cpp
 
 
 HEADERS  += mainwindow.h\
@@ -34,10 +37,15 @@ HEADERS  += mainwindow.h\
     configfilemanager.h \
     gantry.h \
     jogcontroller.h \
-    experimentcontroller.h
+    experimentcontroller.h \
+    mastercontrolunit.h \
+    configdialog.h \
+    serialdiscoverydialog.h
 
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    configdialog.ui \
+    serialdiscoverydialog.ui
 
 
 LIBS += -L$$quote($$PWD/lib) -lftd2xx
@@ -45,6 +53,7 @@ LIBS += -L$$quote($$PWD/lib) -lftd2xx
 MOC_DIR = moc
 OBJECTS_DIR = obj
 DESTDIR = bin
+UI_DIR = ui
 
 OTHER_FILES += \
     default.config \

@@ -21,11 +21,12 @@ ConfigFileManager::ConfigFileManager(QObject *parent): QObject(parent)
 }
 
 
-QList<QString> ConfigFileManager::getFileNames(){// returns list of config files
+QStringList ConfigFileManager::getFileNames(){// returns list of config files
     return files_;
 }
 
- QDomElement ConfigFileManager::loadFile(QString name){
+
+QDomElement ConfigFileManager::loadFile(QString name){
     /// Open file, load into a DOM structure
     /// emit error if failed
 
@@ -48,3 +49,4 @@ QList<QString> ConfigFileManager::getFileNames(){// returns list of config files
      return configDomElement;
 
  }
+

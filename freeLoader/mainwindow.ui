@@ -210,7 +210,7 @@
                   </spacer>
                  </item>
                  <item>
-                  <widget class="QSlider" name="verticalSlider">
+                  <widget class="QSlider" name="jogSpeedSlider">
                    <property name="orientation">
                     <enum>Qt::Vertical</enum>
                    </property>
@@ -252,7 +252,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QDoubleSpinBox" name="speedDoubleSpinBox"/>
+                <widget class="QDoubleSpinBox" name="jogSpeedDoubleSpinBox"/>
                </item>
               </layout>
              </item>
@@ -260,16 +260,6 @@
            </item>
           </layout>
           <zorder>label</zorder>
-          <zorder>verticalSlider</zorder>
-          <zorder>speedDoubleSpinBox</zorder>
-          <zorder>jogUpButton</zorder>
-          <zorder>jogDownButton</zorder>
-          <zorder>setHomeButton</zorder>
-          <zorder>goHomeButton</zorder>
-          <zorder>verticalSpacer</zorder>
-          <zorder>testingFrame</zorder>
-          <zorder></zorder>
-          <zorder></zorder>
           <zorder></zorder>
          </widget>
         </item>
@@ -421,13 +411,33 @@
                       </property>
                      </widget>
                     </item>
+                    <item>
+                     <spacer name="verticalSpacer_10">
+                      <property name="orientation">
+                       <enum>Qt::Vertical</enum>
+                      </property>
+                      <property name="sizeType">
+                       <enum>QSizePolicy::Fixed</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>20</width>
+                        <height>5</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item>
+                     <widget class="QRadioButton" name="loadCellReadRadioButton">
+                      <property name="text">
+                       <string>LoadCell Read</string>
+                      </property>
+                     </widget>
+                    </item>
                    </layout>
                   </item>
                  </layout>
-                 <zorder>tensileRadioButton</zorder>
-                 <zorder>compressionRadioButton</zorder>
-                 <zorder>verticalSpacer_2</zorder>
-                 <zorder></zorder>
+                 <zorder>horizontalSpacer_8</zorder>
                 </widget>
                </item>
                <item>
@@ -584,6 +594,15 @@
                           <height>0</height>
                          </size>
                         </property>
+                        <property name="suffix">
+                         <string> min</string>
+                        </property>
+                        <property name="maximum">
+                         <double>1440.000000000000000</double>
+                        </property>
+                        <property name="singleStep">
+                         <double>0.166666000000000</double>
+                        </property>
                        </widget>
                       </item>
                       <item>
@@ -628,7 +647,10 @@
                          <string/>
                         </property>
                         <property name="suffix">
-                         <string>0</string>
+                         <string> mm</string>
+                        </property>
+                        <property name="maximum">
+                         <double>1000.000000000000000</double>
                         </property>
                        </widget>
                       </item>
@@ -667,6 +689,12 @@
                </item>
                <item>
                 <widget class="QPushButton" name="startButton">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>50</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Start</string>
                  </property>
@@ -863,20 +891,6 @@
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>file</string>
-    </property>
-   </widget>
-   <addaction name="menuFile"/>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
