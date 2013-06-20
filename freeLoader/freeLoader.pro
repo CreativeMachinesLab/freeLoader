@@ -21,7 +21,9 @@ SOURCES += main.cpp\
     motor_funcs.cpp \
     gantry.cpp \
     jogcontroller.cpp \
-    experimentcontroller.cpp
+    experimentcontroller.cpp \
+    mastercontrolunit.cpp \
+    configdialog.cpp
 
 
 HEADERS  += mainwindow.h\
@@ -34,10 +36,13 @@ HEADERS  += mainwindow.h\
     configfilemanager.h \
     gantry.h \
     jogcontroller.h \
-    experimentcontroller.h
+    experimentcontroller.h \
+    mastercontrolunit.h \
+    configdialog.h
 
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    configdialog.ui
 
 
 LIBS += -L$$quote($$PWD/lib) -lftd2xx

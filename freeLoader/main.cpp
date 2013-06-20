@@ -4,19 +4,26 @@
 #include "loadcell.h"
 #include "configfilemanager.h"
 #include "testdata.h"
+#include "configdialog.h"
 #include <QtXml/QDomDocument>
 #include <QDebug>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    QStringList l;
+    l.append("test.csv");
+    ConfigDialog cd(l);
+    cd.exec();
+    /*
     MainWindow w;
     w.show();
     w.disableJog(true);
     w.disableTesting(true);
     w.disableTestSettings(true);
+    */
 
-    QDomElement e;
+    //QDomElement e;
     /*Dynamixel d( e,0);
     d.connect();
     qDebug()<<"angle: "<<d.getAngle();
@@ -31,5 +38,6 @@ int main(int argc, char *argv[])
     //l.open();
 
     //qDebug()<<"Load: "<<l.readLoad();
+    return 0;
     return a.exec();
 }
