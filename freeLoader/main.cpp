@@ -26,11 +26,13 @@ int main(int argc, char *argv[])
     qDebug()<<"angle: "<<d.getAngle();
     d.setAlpha(1.0);
     d.setBeta(0.0);
-    d.setSpeed(250);
+    */
+    /*gant->dyna->setSpeed(250);
     Sleep(1000);
-    qDebug()<<"angle: "<<d.getAngle();
-    d.stop();*/
+    qDebug()<<"angle: "<<gant->dyna->getAngle();
+    gant->dyna->stop();*/
 
+    qDebug()<<"load: "<<gant->cell->readLoad();
     //LoadCell l(e,0);
     //l.open();
 

@@ -46,6 +46,26 @@ LoadCell::LoadCell(QDomNode confignode, QObject *parent) :
             }else if("writetotaltimeoutmultiplier"==lchild.nodeName().toLower()){
                 WriteTotalTimeoutMultiplier_ = lchild.firstChild().nodeValue().toInt();
             }else if("baudrate"==lchild.nodeName().toLower()){
+                /*
+                 *  #define FT_BAUD_300			300
+                    #define FT_BAUD_600			600
+                    #define FT_BAUD_1200		1200
+                    #define FT_BAUD_2400		2400
+                    #define FT_BAUD_4800		4800
+                    #define FT_BAUD_9600		9600
+                    #define FT_BAUD_14400		14400
+                    #define FT_BAUD_19200		19200
+                    #define FT_BAUD_38400		38400
+                    #define FT_BAUD_57600		57600
+                    #define FT_BAUD_115200		115200
+                    #define FT_BAUD_230400		230400
+                    #define FT_BAUD_460800		460800
+                    #define FT_BAUD_921600		921600
+                */
+
+                QString tempString = QString::fromStdString(lchild.firstChild().nodeValue().toStdString());
+
+
                 BaudRate_ = lchild.firstChild().nodeValue().toInt();
             }else if("bytesize"==lchild.nodeName().toLower()){
                 ByteSize_ = lchild.firstChild().nodeValue().toInt();
@@ -200,6 +220,7 @@ float LoadCell::readLoad(){
         emit failedToRead();
         qDebug()<< "error occurred reading the load cell input buffer";
     }
+
 
 
     //Convert load cell buffer to Newtons

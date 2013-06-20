@@ -29,9 +29,11 @@ Dynamixel::Dynamixel(QDomNode confignode, QObject *parent) :
                 motorNumber_ = lchild.firstChild().nodeValue().toInt();
 
             }else if("countsperrev"==lchild.nodeName().toLower()){
+
                 countsPerRevolution_ = lchild.firstChild().nodeValue().toFloat();
             }else if("defaultalphacw"==lchild.nodeName().toLower()){
                 alphaCW_ = lchild.firstChild().nodeValue().toFloat();
+
             }else if("defaultbetacw"==lchild.nodeName().toLower()){
                 betaCW_ = lchild.firstChild().nodeValue().toFloat();
             }else if("defaultalphaccw"==lchild.nodeName().toLower()){
@@ -39,9 +41,9 @@ Dynamixel::Dynamixel(QDomNode confignode, QObject *parent) :
             }else if("defaultbetaccw"==lchild.nodeName().toLower()){
                 betaCCW_ = lchild.firstChild().nodeValue().toFloat();
             }else if("dzfloor"==lchild.nodeName().toLower()){
-                countsPerRevolution_ = lchild.firstChild().nodeValue().toFloat();
+                dzFloor_ = lchild.firstChild().nodeValue().toFloat();
             }else if("dzceiling"==lchild.nodeName().toLower()){
-                alphaCW_ = lchild.firstChild().nodeValue().toFloat();
+                dzCeiling_ = lchild.firstChild().nodeValue().toFloat();
             }else if("maxcw"==lchild.nodeName().toLower()){
                 maxSpeedCW_ = lchild.firstChild().nodeValue().toFloat();
             }else if("mincw"==lchild.nodeName().toLower()){
@@ -118,9 +120,10 @@ float  Dynamixel::getcountsPerRev(){
 
 int Dynamixel::speedToInternalSpeed(float speedInMMperMin, int direction){
     if(direction>0){ //CW
-        return (speedInMMperMin-betaCW_)/alphaCW_;
+
+        return floor((speedInMMperMin-betaCW_)/alphaCW_);
     }else{           //CCW
-        return (speedInMMperMin-betaCCW_)/alphaCCW_;
+        return floor((speedInMMperMin-betaCCW_)/alphaCCW_);
     }
 
 }
@@ -159,7 +162,9 @@ void Dynamixel::connect(){ // Initiallizes the motor and generates the ftHandleD
 
 void Dynamixel::setSpeed(float mmPerMin){ // Sets the speed of the unit and runs any future PID control loop. +=CW -=CCW
     if(!initialized_){return;}
-    int speed = speedToInternalSpeed(mmPerMin, (int)(mmPerMin/fabs(mmPerMin)));
+    int dir=mmPerMin/fabs(mmPerMin);
+    qDebug()<<"dir: "<<dir;
+    int speed = speedToInternalSpeed(mmPerMin,dir);
     motor_spin(ftHandleDYNA_,motorNumber_,speed);
     qDebug()<<"Speed: "<<speed;
 }

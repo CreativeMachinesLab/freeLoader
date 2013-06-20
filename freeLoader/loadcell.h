@@ -35,7 +35,7 @@ private:
     int ReadTotalTimeoutMultiplier_;
     int WriteTotalTimeoutConstant_;
     int WriteTotalTimeoutMultiplier_;
-    int BaudRate_ ;
+    DWORD BaudRate_ ;
     int ByteSize_ ;
     int StopBits_ ;
     int Parity_ ;
