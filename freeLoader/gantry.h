@@ -18,12 +18,15 @@ public:
     // will connect at startio
 
 
+
 public:
     Dynamixel* dyna;
     LoadCell* cell;
     float mmPerRev;
     float position;
     int updateIntervalInMS;
+
+
 
 
 };

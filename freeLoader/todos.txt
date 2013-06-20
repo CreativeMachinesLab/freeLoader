@@ -1,11 +1,11 @@
 TODO:
 
 Implementation:
-* Load config files in config file manager
+* Load config files in config file manager (DONE)
 * write files to CSV in testdata
-* config loading for dyanmixel
-* config loading for loadcell
-* Gantry Constructor / config loading
+* config loading for dyanmixel (DONE)
+* config loading for loadcell   (DONE)
+* Gantry Constructor / config loading (DONE)
 * calculateCurrentPosition
 
 

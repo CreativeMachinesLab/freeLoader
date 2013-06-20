@@ -9,7 +9,7 @@ class LoadCell : public QObject
 {
     Q_OBJECT
 public:
-    explicit LoadCell( QDomElement config, QObject *parent = 0);
+    explicit LoadCell( QDomNode confignode, QObject *parent = 0);
 
     bool open();
     bool isInitialized();

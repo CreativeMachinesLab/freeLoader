@@ -2,7 +2,7 @@
 #include <QDebug>
 #include <stdio.h>
 
-LoadCell::LoadCell(QDomElement config, QObject *parent) :
+LoadCell::LoadCell(QDomNode confignode, QObject *parent) :
     QObject(parent),
     initialized_(false),
     ReadIntervalTimeout_(50),
@@ -17,12 +17,55 @@ LoadCell::LoadCell(QDomElement config, QObject *parent) :
     maxForce_(12),
     mlbfToN(0.00444822162)
 
+
 {
     ///SET THE CONFIGURATION FROM THE CONFIG FILE
-    ///    std::wcin >> comNum;
-        std::wstring comNum = L"com14";
-        std::wstring comPrefix = L"\\\\.\\";
-        comID_ = comPrefix+comNum;
+
+    //first initialize comID_, in case we can't find that
+    //in the xml
+
+    std::wstring comNum = L"com14";
+
+    if("loadcell"==confignode.nodeName().toLower()){
+        QDomNodeList locChildren = confignode.childNodes();
+        for (unsigned int j = 0; j < locChildren.length(); j++) {
+            QDomNode lchild = locChildren.at(j);
+
+            if("comport"==lchild.nodeName().toLower()){
+                std::wstring tempNum = lchild.nodeValue().toStdWString();
+                comNum=L"com";
+                comNum+=tempNum;
+            }else if("readintervaltimeout"==lchild.nodeName().toLower()){
+                ReadIntervalTimeout_ = lchild.nodeValue().toInt();
+            }else if("readtotaltimeoutconstant"==lchild.nodeName().toLower()){
+                ReadTotalTimeoutConstant_ = lchild.nodeValue().toInt();
+            }else if("readtotaltimeoutmultiplier"==lchild.nodeName().toLower()){
+                ReadTotalTimeoutMultiplier_ = lchild.nodeValue().toInt();
+            }else if("writetotaltimeoutconstant"==lchild.nodeName().toLower()){
+                WriteTotalTimeoutConstant_ = lchild.nodeValue().toInt();
+            }else if("writetotaltimeoutmultiplier"==lchild.nodeName().toLower()){
+                WriteTotalTimeoutMultiplier_ = lchild.nodeValue().toInt();
+            }else if("baudrate"==lchild.nodeName().toLower()){
+                BaudRate_ = lchild.nodeValue().toInt();
+            }else if("bytesize"==lchild.nodeName().toLower()){
+                ByteSize_ = lchild.nodeValue().toInt();
+            }else if("stopbits"==lchild.nodeName().toLower()){
+                StopBits_ = lchild.nodeValue().toInt();
+            }else if("parity"==lchild.nodeName().toLower()){
+                Parity_ = lchild.nodeValue().toInt();
+            }else if("maxforce"==lchild.nodeName().toLower()){
+                maxForce_ = lchild.nodeValue().toFloat();
+            }
+        }
+    } else {
+        qDebug()<<"Load Cell: Could not read config file";
+    }
+
+    //down here so the default still gets a prefix even if the xml extraction fails
+    std::wstring comPrefix = L"\\\\.\\";
+    comID_ = comPrefix+comNum;
+
+
 }
 
 

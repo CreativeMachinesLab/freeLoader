@@ -14,7 +14,7 @@ class Dynamixel : public QObject
 {
     Q_OBJECT
 public:
-    explicit Dynamixel( QDomElement configfile,QObject *parent = 0);
+    explicit Dynamixel( QDomNode confignode,QObject *parent = 0);
     ~Dynamixel();
 
     float getAngle();
