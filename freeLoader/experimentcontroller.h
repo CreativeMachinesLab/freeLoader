@@ -21,6 +21,8 @@ public:
     explicit ExperimentController(Gantry* gant_, QObject *parent = 0);
     explicit ExperimentController(Gantry* gant_, QString filename, QObject *parent = 0);
 
+    QString getFileName();
+
 signals:
 
     void percentComplete(int);

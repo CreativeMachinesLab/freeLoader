@@ -32,6 +32,8 @@ public slots:
     void testStarted();
     void testEnded();
 
+    void setFileName(QString s);
+
     void addPoint(QVector<float> point);
     void setPercent(int per);
 

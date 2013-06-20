@@ -20,8 +20,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->startButton,SIGNAL(clicked()),this,SLOT(startClicked()));
     connect(ui->endButton,SIGNAL(clicked()),this,SLOT(endClicked()));
 
+
     //FOR TESTING
-    connect(ui->startButton,SIGNAL(clicked()),this,SLOT(testStarted()));
+    //connect(ui->startButton,SIGNAL(clicked()),this,SLOT(testStarted()));
 }
 
 MainWindow::~MainWindow()
@@ -49,6 +50,10 @@ void MainWindow::disableMovementTest(bool disabled){
 
 //set at dyna connect
 void MainWindow::setSpeedMin(float min){
+    if(min<=0){
+        min=0.1;
+    }
+
     ui->testSpeedDoubleSpinBox->setMinimum(min);
     ui->testSpeedHSlider->setMinimum(min*ticksPerMMPerMin_);
     ui->jogSpeedDoubleSpinBox->setMinimum(min);
@@ -124,6 +129,11 @@ float MainWindow::getInterval(){
 
 QString MainWindow::getFileName(){
     return ui->fileNameLineEdit->text();
+}
+
+void MainWindow::setFileName(QString s){
+     ui->fileNameLineEdit->setText(s);
+     filenameChanged();
 }
 
 

@@ -32,6 +32,10 @@ void ExperimentController::setFileName(QString filename)
     data_->setFileName(filename);
 }
 
+QString ExperimentController::getFileName(){
+    return data_->getFileName();
+}
+
 void ExperimentController::startExperiment(){
     if(!((gant_->dyna->isInitialized()) && (gant_->cell->isInitialized()))  && (XPTESTING != true)){
         emit unableToStart();
@@ -55,6 +59,7 @@ void ExperimentController::startExperiment(){
 
     connect(this,SIGNAL(dataPoint(QVector<float>)),data_,SLOT(addData(QVector<float>)));
 
+    qDebug()<< "EXP: TIME: "<<time <<" (min)";
     switch(type_){
     case kTensile:
         move(speed_,time,1);

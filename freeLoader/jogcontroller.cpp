@@ -49,7 +49,8 @@ void JogController::jogDown(){
 }
 
 void JogController::move(float speed, float timeInMin, int){ // we may need to flip directions
-    int time = (int) timeInMin*60.0*1000.0;
+    int time = (int) (timeInMin*60.0*1000.0);
+    qDebug()<<"move time: "<< time;
     stoptimer_->setInterval(time);
     stoptimer_->start();
     speed_=speed;

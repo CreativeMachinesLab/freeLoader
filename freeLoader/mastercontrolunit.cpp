@@ -43,7 +43,7 @@ void MasterControlUnit::setConfig(QString filename){
     gant_ = new Gantry(n,this);
     jog_ = new JogController(gant_,this);
     xp_ = new ExperimentController(gant_, this);
-
+    window_->setFileName(xp_->getFileName());
     connect(gant_->dyna,SIGNAL(failedToClose()),this,SLOT(failedToCloseDyna()));
     connect(gant_->cell,SIGNAL(failedToClose()),this,SLOT(failedToCloseLoadCell()));
     connect(gant_->cell,SIGNAL(failedToRead()),this,SLOT(failedToReadLoadCell()));
