@@ -72,6 +72,7 @@ void MainWindow::setSpeedMax(float max){
 
 void MainWindow::testStarted(){
     ui->stackedWidget->setCurrentIndex(1);
+    ui->dataPlainTextEdit->clear();
     disableJog(true);
     disableTestSettings(true);
     disableTesting(false);

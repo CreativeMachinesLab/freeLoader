@@ -4,17 +4,6 @@
 
 bool XPTESTING=true;
 
-ExperimentController::ExperimentController(Gantry *gant, QObject *parent) :
-    JogController(gant,parent),type_(kTensile),condi_(kTime),interval_(0.0),percent_(0)
-{
-    data_ = new TestData(QDateTime::currentDateTimeUtc().toString()+".csv",this);
-    percentTimer_ = new QTimer();
-    startposition_=gant->position;
-    connect(stoptimer_,SIGNAL(timeout()),this,SLOT(stopExperiment()));
-    connect(percentTimer_,SIGNAL(timeout()),this,SLOT(tic()));
-
-}
-
 
 ExperimentController::ExperimentController(Gantry *gant, QString filename, QObject *parent):
     JogController(gant, parent),type_(kTensile),condi_(kTime),interval_(0.0),percent_(0)
