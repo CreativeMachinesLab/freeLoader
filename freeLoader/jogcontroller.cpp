@@ -27,10 +27,11 @@ float JogController::calculateCurrentPosition(QVector<float> state ){
     //according to John, we have 61440 clicks/in = 21600 degrees/in
     //=850.39370079 degrees/mm
 
-    float degreesPermm=850.39370079; //all these probably shouldn't be hardcoded
+    float degreesPermm=850.39370079; //this probably shouldn't be hardcoded
 
     //deadzone floor and ceiling
-    float dzCeiling=353.33;
+    float dzCeiling=353.33; //these probably shouldn't be hardcoded
+
     float dzFloor=1.76;
 
     //state info
@@ -49,10 +50,17 @@ float JogController::calculateCurrentPosition(QVector<float> state ){
         dPos=dAngle/degreesPermm;
     }else{ //if either end is in the deadzone, then we use the motor spin speed to extrapolate dPos
         dTime=currTime-lastTime;
-        dPosAbs=dTime*speed_;
+        dPosAbs=dTime*speed_;  //speed is in mm/min, time is in min
+        if(currDirection_>0){ //CW movement
+            dPos=dPosAbs;
+        }else{                //CCW movement
+            dPos=-dPosAbs;
+        }
     }
 
-   // float lastPos
+    float lastPos=gant->position; //query the gantry for last position
+
+    return lastPos+dPos; //return updated position
 }
 
 void JogController::setSpeed(float speed){ // speed is in ABS values here
