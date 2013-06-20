@@ -23,14 +23,6 @@ MasterControlUnit::MasterControlUnit(QObject *parent) :
 
 
     QTimer::singleShot(0,this,SLOT(promtForConfig()));
-
-
-    /**
-     * Make Mainwindow
-     * disable all of mainwindow
-     * showmain window
-     * promptForConfig
-     **/
 }
 
 void MasterControlUnit::promtForConfig(){
@@ -52,11 +44,23 @@ void MasterControlUnit::setConfig(QString filename){
     jog_ = new JogController(gant_,this);
     xp_ = new ExperimentController(gant_, this);
 
+    connect(gant_->dyna,SIGNAL(failedToClose()),this,SLOT(failedToCloseDyna()));
+    connect(gant_->cell,SIGNAL(failedToClose()),this,SLOT(failedToCloseLoadCell()));
+    connect(gant_->cell,SIGNAL(failedToRead()),this,SLOT(failedToReadLoadCell()));
+    connect(gant_->cell,SIGNAL(maxForceReached()),this,SLOT(forceOverLoad()));
 
-    bool connected=false;
-    connected = ( gant_->dyna->isInitialized() && gant_->cell->isInitialized() );
-    if( !connected && (true!=TESTING)){
-        QMessageBox::warning(window_,"","Failled to Connect to system");
+
+
+    if(!gant_->dyna->isInitialized()){
+        failedToOpenDyna();
+    }
+
+    if(!gant_->cell->isInitialized()){
+        failedToOpenLoadCell();
+    }
+
+    if( !( gant_->dyna->isInitialized() && gant_->cell->isInitialized() ) && (true!=TESTING)){
+//        QMessageBox::warning(window_,"","Failled to Connect to system");
         QTimer::singleShot(0,this,SLOT(promtForConfig()));
         return;
     }
@@ -85,5 +89,48 @@ void MasterControlUnit::setConfig(QString filename){
     connect(window_,SIGNAL(jogSpeedChanged(float)),jog_,SLOT(setSpeed(float)));
 
 }
-void MasterControlUnit::beginExperiment(){}
-void MasterControlUnit::endExperiment(){}
+void MasterControlUnit::beginExperiment(){
+    TestType type = window_->getType();
+    EndCondition cond = window_->getEndCond();
+    float speed = fabs(window_->getSpeed());
+    float interval = fabs(window_->getInterval());
+    QString filename = window_->getFileName();
+
+    delete xp_;
+    xp_ = new ExperimentController(gant_,filename, this);
+    xp_->setTestParameters(type,speed,cond,interval);
+    connect(window_,SIGNAL(endXp()),xp_,SLOT(stopExperiment()));
+    connect(xp_,SIGNAL(dataPoint(QVector<float>)),window_,SLOT(addPoint(QVector<float>)));
+    connect(xp_,SIGNAL(percentComplete(int)),window_,SLOT(setPercent(int)));
+    connect(xp_,SIGNAL(experimentCompleted()),this,SLOT(endExperiment()));
+    connect(xp_,SIGNAL(experimentCompleted()),window_,SLOT(testEnded()));
+    connect(xp_,SIGNAL(experimentStarted()),window_,SLOT(testStarted()));
+    connect(xp_,SIGNAL(unableToStart()),this,SLOT(cantStartXP()));
+    xp_->startExperiment();
+
+}
+void MasterControlUnit::endExperiment(){
+    qDebug()<<"end experiment";
+}
+
+void MasterControlUnit::cantStartXP(){
+    QMessageBox::warning(window_,"","Failled to Start Experiment");
+}
+void MasterControlUnit::forceOverLoad(){
+    QMessageBox::warning(window_,"","FORCE OVERLOAD!!!!");
+}
+void MasterControlUnit::failedToOpenDyna(){
+    QMessageBox::warning(window_,"","Failed to Open Dynamixel");
+}
+void MasterControlUnit::failedToCloseDyna(){
+    QMessageBox::warning(window_,"","Failled to Close Dynamixel");
+}
+void MasterControlUnit::failedToOpenLoadCell(){
+    QMessageBox::warning(window_,"","Failled to Open Load Cell");
+}
+void MasterControlUnit::failedToCloseLoadCell(){
+    QMessageBox::warning(window_,"","Failled to Close Load Cell");
+}
+void MasterControlUnit::failedToReadLoadCell(){
+    QMessageBox::warning(window_,"","Failled to Read Load Cell");
+}

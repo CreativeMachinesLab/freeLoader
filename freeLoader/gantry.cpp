@@ -10,6 +10,8 @@ Gantry::Gantry(QDomNode configfile, QObject *parent) :
     QDomElement e;
     dyna= new Dynamixel(e);
     cell = new LoadCell(e);
+    dyna->connect();
+    cell->open();
 
 }
 

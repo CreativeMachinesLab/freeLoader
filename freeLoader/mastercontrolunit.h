@@ -28,6 +28,15 @@ public slots:
     void setConfig(QString filename); // make gant, setup connections to UI or loop to prompt
     void beginExperiment(); // start epxeriment and set up connections
     void endExperiment(); // change UI and disable connections
+
+    void cantStartXP();
+    void forceOverLoad();
+    void failedToOpenDyna();
+    void failedToCloseDyna();
+    void failedToOpenLoadCell();
+    void failedToCloseLoadCell();
+    void failedToReadLoadCell();
+
     
 public:
     MainWindow *window_;

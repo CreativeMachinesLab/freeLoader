@@ -33,7 +33,7 @@ public slots:
     void testEnded();
 
     void addPoint(QVector<float> point);
-
+    void setPercent(int per);
 
 
 
@@ -43,6 +43,14 @@ public slots:
     void testSpinUpdated();
     void testSliderUpdated();
     void filenameChanged();
+
+    // get test info
+    TestType getType();
+    float getSpeed();
+    EndCondition getEndCond();
+    float getInterval();
+    QString getFileName();
+
 
     // Re-emmiter
     void jogUpClicked();

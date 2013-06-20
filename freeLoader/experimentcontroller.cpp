@@ -2,6 +2,8 @@
 #include <QDateTime>
 #include <QDebug>
 
+bool XPTESTING=true;
+
 ExperimentController::ExperimentController(Gantry *gant, QObject *parent) :
     JogController(gant,parent),type_(kTensile),condi_(kTime),interval_(0.0),percent_(0)
 {
@@ -21,6 +23,7 @@ ExperimentController::ExperimentController(Gantry *gant, QString filename, QObje
     percentTimer_ = new QTimer();
     startposition_=gant->position;
     connect(stoptimer_,SIGNAL(timeout()),this,SLOT(stopExperiment()));
+    connect(percentTimer_,SIGNAL(timeout()),this,SLOT(tic()));
 
 }
 
@@ -30,7 +33,7 @@ void ExperimentController::setFileName(QString filename)
 }
 
 void ExperimentController::startExperiment(){
-    if(! ((gant_->dyna->isInitialized()) && (gant_->cell->isInitialized()))){
+    if(!((gant_->dyna->isInitialized()) && (gant_->cell->isInitialized()))  && (XPTESTING != true)){
         emit unableToStart();
         qDebug()<< "Gant not connected to either dyna or cell";
         return;
@@ -65,7 +68,7 @@ void ExperimentController::startExperiment(){
             speed_=0;
             break;
         }
-        qDebug()<<"Error Can only run time tests without dynamixel";
+        qDebug()<<"Error Can only run time tests for loadcell readings";
 
     default:
         qDebug()<<"Error  with test type: "<<type_;
@@ -74,7 +77,8 @@ void ExperimentController::startExperiment(){
         data_->clearData();
         return;
     }
-    percentTimer_->setInterval(time*60*10);//*1000/100
+    percentTimer_->setInterval(time*60*10);//time in min * 60= time in s  time in s*1000 = time in ms  / 100 = intervals
+    qDebug()<<"time:"<< time*60*10;
     percentTimer_->start();
     percent_=0;
 
@@ -94,6 +98,7 @@ void ExperimentController::stopExperiment(){
 
 void ExperimentController::tic(){
     percent_++;
+    qDebug()<<"tic: "<<percent_;
     emit percentComplete(percent_);
 }
 

@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->endButton,SIGNAL(clicked()),this,SLOT(endClicked()));
 
     //FOR TESTING
-    //connect(ui->startButton,SIGNAL(clicked()),this,SLOT(testStarted()));
+    connect(ui->startButton,SIGNAL(clicked()),this,SLOT(testStarted()));
 }
 
 MainWindow::~MainWindow()
@@ -78,6 +78,10 @@ void MainWindow::testEnded(){
     disableTesting(true);
 }
 
+void MainWindow::setPercent(int per){
+    ui->progressBar->setValue(per);
+}
+
 void MainWindow::addPoint(QVector<float> point){
     if(point.size()<3){return;}
     QString toadd="\n";
@@ -86,6 +90,40 @@ void MainWindow::addPoint(QVector<float> point){
       <<QString::number(point[1])<<",\t"
       <<QString::number(point[2]);
     ui->dataPlainTextEdit->appendPlainText(toadd);
+}
+
+
+TestType MainWindow::getType(){
+    if (ui->tensileRadioButton->isChecked()){
+        return kTensile;
+    }else if(ui->compressionRadioButton->isChecked()){
+        return kCompression;
+    }
+    return kReading;
+}
+
+float MainWindow::getSpeed(){
+    return ui->testSpeedDoubleSpinBox->value();
+}
+
+EndCondition MainWindow::getEndCond(){
+    if(ui->distanceRadioButton->isChecked()){
+        return kDistance;
+    }
+    return kTime;
+
+}
+float MainWindow::getInterval(){
+    if (ui->distanceRadioButton->isChecked()){
+        return ui->distanceDoubleSpinBox->value();
+    }
+
+    return ui->timeDoubleSpinBox->value();
+}
+
+
+QString MainWindow::getFileName(){
+    return ui->fileNameLineEdit->text();
 }
 
 
