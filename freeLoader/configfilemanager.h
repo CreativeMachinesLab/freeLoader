@@ -12,7 +12,7 @@ class ConfigFileManager: public QObject
 public:
     explicit ConfigFileManager(QObject *parent = 0);
     QStringList getFileNames();// returns list of config files
-    QDomElement loadFile(QString name);//returns dynamixel and loadcell configs
+    QDomNode loadFile(QString name);//returns dynamixel and loadcell configs
 
 signals:
     void noConfigs();

@@ -6,6 +6,7 @@ ExperimentController::ExperimentController(Gantry *gant, QObject *parent) :
     JogController(gant,parent),type_(kTensile),condi_(kTime),interval_(0.0),percent_(0)
 {
     data_ = new TestData(QDateTime::currentDateTimeUtc().toString()+".csv",this);
+    percentTimer_ = new QTimer();
     startposition_=gant->position;
     connect(stoptimer_,SIGNAL(timeout()),this,SLOT(stopExperiment()));
     connect(percentTimer_,SIGNAL(timeout()),this,SLOT(tic()));
@@ -17,6 +18,7 @@ ExperimentController::ExperimentController(Gantry *gant, QString filename, QObje
     JogController(gant, parent),type_(kTensile),condi_(kTime),interval_(0.0),percent_(0)
 {
     data_ = new TestData(filename,this);
+    percentTimer_ = new QTimer();
     startposition_=gant->position;
     connect(stoptimer_,SIGNAL(timeout()),this,SLOT(stopExperiment()));
 
@@ -28,12 +30,12 @@ void ExperimentController::setFileName(QString filename)
 }
 
 void ExperimentController::startExperiment(){
-    if(! ((gant->dyna->isInitialized()) && (gant->cell->isInitialized()))){
+    if(! ((gant_->dyna->isInitialized()) && (gant_->cell->isInitialized()))){
         emit unableToStart();
         qDebug()<< "Gant not connected to either dyna or cell";
         return;
     }
-    startposition_=gant->position;
+    startposition_=gant_->position;
 
 
 

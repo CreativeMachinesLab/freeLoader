@@ -35,7 +35,6 @@ public:
     JogController *jog_;
     Gantry *gant_;
     ConfigFileManager *configs_;
-    QString config_;
 
 };
 

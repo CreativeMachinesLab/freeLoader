@@ -5,7 +5,7 @@
 
 Dynamixel::Dynamixel(QDomElement configfile, QObject *parent) :
     QObject(parent),initialized_(false), motorNumber_(1),countsPerRevolution_(1005),
-    alpha_(-39.7760880746),beta_(0.0362830709),
+    alpha_(0.0362830709),beta_(-39.7760880746),
     maxSpeedCW_(2045),minSpeedCW_(1025),
     maxSpeedCCW_(1022),minSpeedCCW_(2)
 {
@@ -86,13 +86,19 @@ void Dynamixel::connect(){ // Initiallizes the motor and generates the ftHandleD
 }
 
 void Dynamixel::setSpeed(float mmPerMin){ // Sets the speed of the unit and runs any future PID control loop. +=CW -=CCW
-    if(!initialized_){return;}
+    if(!initialized_){
+        qDebug()<<"Got set speed "<< mmPerMin << "while not initialized";
+        return;
+    }
     int speed = speedToInternalSpeed(mmPerMin);
     motor_spin(ftHandleDYNA_,motorNumber_,speed);
     qDebug()<<"Speed: "<<speed;
 }
 
 void Dynamixel::stop(){
-    if(!initialized_){return;}
+    if(!initialized_){
+        qDebug()<<"Got stop command while not initialized";
+        return;
+    }
     motor_spin(ftHandleDYNA_,motorNumber_,0);
 }

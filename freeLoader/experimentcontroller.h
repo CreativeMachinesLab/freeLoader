@@ -18,8 +18,8 @@ class ExperimentController : public JogController
 {
     Q_OBJECT
 public:
-    explicit ExperimentController(Gantry* gant, QObject *parent = 0);
-    explicit ExperimentController(Gantry* gant, QString filename, QObject *parent = 0);
+    explicit ExperimentController(Gantry* gant_, QObject *parent = 0);
+    explicit ExperimentController(Gantry* gant_, QString filename, QObject *parent = 0);
 
 signals:
 

@@ -13,8 +13,15 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->testSpeedDoubleSpinBox,SIGNAL(valueChanged(double)),this,SLOT(testSpinUpdated()));
     connect(ui->fileNameLineEdit,SIGNAL(editingFinished()),this,SLOT(filenameChanged()));
 
+    connect(ui->jogUpButton,SIGNAL(clicked()),this,SLOT(jogUpClicked()));
+    connect(ui->jogDownButton,SIGNAL(clicked()),this,SLOT(jogDownClicked()));
+    connect(ui->setHomeButton,SIGNAL(clicked()),this,SLOT(setHomeClicked()));
+    connect(ui->goHomeButton,SIGNAL(clicked()),this,SLOT(goHomeClicked()));
+    connect(ui->startButton,SIGNAL(clicked()),this,SLOT(startClicked()));
+    connect(ui->endButton,SIGNAL(clicked()),this,SLOT(endClicked()));
+
     //FOR TESTING
-    connect(ui->startButton,SIGNAL(clicked()),this,SLOT(testStarted()));
+    //connect(ui->startButton,SIGNAL(clicked()),this,SLOT(testStarted()));
 }
 
 MainWindow::~MainWindow()
@@ -90,6 +97,7 @@ void MainWindow::filenameChanged(){
 void MainWindow::jogSpinUpdated(){
     if(jogToggle_){
         ui->jogSpeedSlider->setValue((int)ticksPerMMPerMin_*ui->jogSpeedDoubleSpinBox->value());
+        emit jogSpeedChanged(ui->jogSpeedDoubleSpinBox->value());
     }
     jogToggle_=!jogToggle_;
 }
@@ -102,6 +110,7 @@ void MainWindow::jogSliderUpdated(){
 void MainWindow::testSpinUpdated(){
     if(testToggle_){
         ui->testSpeedHSlider->setValue((int)ticksPerMMPerMin_*ui->testSpeedDoubleSpinBox->value());
+        emit jogSpeedChanged(ui->jogSpeedDoubleSpinBox->value());
     }
     testToggle_=!testToggle_;
 }
@@ -111,3 +120,31 @@ void MainWindow::testSliderUpdated(){
     }
     testToggle_=!testToggle_;
 }
+
+
+
+
+void MainWindow::jogUpClicked(){
+    emit jogUp();
+}
+void MainWindow::jogDownClicked(){
+    emit jogDown();
+}
+void MainWindow::goHomeClicked(){
+    emit goHome();
+}
+void MainWindow::setHomeClicked(){
+    emit setHome();
+}
+void MainWindow::startClicked(){
+    emit startXp();
+}
+void MainWindow::endClicked(){
+    emit endXp();
+}
+
+
+
+
+
+

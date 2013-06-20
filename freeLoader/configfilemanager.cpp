@@ -27,7 +27,8 @@ QStringList ConfigFileManager::getFileNames(){// returns list of config files
     return files_;
 }
 
- QDomElement loadFile(QString name){
+ QDomNode ConfigFileManager::loadFile(QString name){
     /// Open file, load into a DOM structure
     /// emit error if failed
- }
+     return QDomNode();
+}
