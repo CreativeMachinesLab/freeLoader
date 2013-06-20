@@ -14,13 +14,13 @@ public:
     /// In theory you could move the gantry using a jog at the same time an experiment is running.
     /// We would need to put a flag in the gant object to signify ownership of the commands by a particular object
 
-    float calculateCurrentPosition(float angle);
+    float calculateCurrentPosition(QVector<float> state);
 
 
 public slots:
     // Used for all versions, very general
     void setSpeed(float speed);
-    void move(float speed, float timeInMin, int direction); // speed = abs, time = time in min,  bool +1 = CW = up , -1 = CCW = down.... maybe
+    void move(float speed, float timeInMin, int direction); // speed = abs mm/min, time = time in min,  bool +1 = CW = up , -1 = CCW = down.... maybe
     void startMove();
     void stopMove();
     void updateState();
@@ -42,7 +42,7 @@ public:
     float speed_;
 
 private:
-
+    int currDirection_; //added by Ethan
     QVector<float> lastState_;
 };
 

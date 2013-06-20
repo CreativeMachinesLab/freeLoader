@@ -17,7 +17,7 @@ public:
     explicit Dynamixel( QDomNode confignode,QObject *parent = 0);
     ~Dynamixel();
 
-    float getAngle();
+    float getAngle(); // returns in degree
     bool isInitialized();
 
     // Internal values from config. Used for UI display
@@ -51,8 +51,10 @@ private:
     // Set in Config file
     int motorNumber_;
     float countsPerRevolution_;
-    float alpha_;
-    float beta_;
+    float alphaCW_;
+    float betaCW_;
+    float alphaCCW_;
+    float betaCCW_;
     float maxSpeedCW_; // in internalspeed
     float minSpeedCW_;// in internalSpeed
     float maxSpeedCCW_;// in internalSpeed

@@ -3,7 +3,7 @@
 #include <math.h>
 
 JogController::JogController(Gantry *gant, QObject *parent) :
-    QObject(parent),speed_(1.0)
+    QObject(parent),speed_(1.0), currDirection_(1)
 {
     stoptimer_->setSingleShot(true);
     updatetimer_->setInterval(gant->updateIntervalInMS);
@@ -15,8 +15,44 @@ JogController::JogController(Gantry *gant, QObject *parent) :
 /// In theory you could move the gantry using a jog at the same time an experiment is running.
 /// We would need to put a flag in the gant object to signify ownership of the commands by a particular object
 
-float JogController::calculateCurrentPosition(float angle){
+float JogController::calculateCurrentPosition(QVector<float> state ){
     /// TO BE WRITTEN BY ETHAN BASED ON THE MATLAB
+    //deadzone is angle<5 or angle>1005 clicks
+    //if each click is 45/128 degrees, that means
+    //less than 1.76 degrees or greater than 353.33 degrees
+
+    //if we're in the deadzone, we'll extrapolate the
+    //distance travelled based on the speed reading
+
+    //according to John, we have 61440 clicks/in = 21600 degrees/in
+    //=850.39370079 degrees/mm
+
+    float degreesPermm=850.39370079; //all these probably shouldn't be hardcoded
+
+    //deadzone floor and ceiling
+    float dzCeiling=353.33;
+    float dzFloor=1.76;
+
+    //state info
+    float currAngle=state[1];
+    float lastAngle=lastState_[1];
+    float currTime=state[0];
+    float lastTime=lastState_[0];
+
+    float dAngle;   //the angle travelled in this timestep
+    float dTime;    //amount of time between this step and last step
+    float dPos;     //the position travelled in this timestep
+    float dPosAbs;  //the absolute value of position travelled, useful when extrapolating through deadzone
+
+    if((currAngle>dzFloor)&&(currAngle<dzCeiling)&&(lastAngle>dzFloor)&&(lastAngle<dzCeiling)){ //if everything is normal
+        dAngle=currAngle-lastAngle;
+        dPos=dAngle/degreesPermm;
+    }else{ //if either end is in the deadzone, then we use the motor spin speed to extrapolate dPos
+        dTime=currTime-lastTime;
+        dPosAbs=dTime*speed_;
+    }
+
+   // float lastPos
 }
 
 void JogController::setSpeed(float speed){ // speed is in ABS values here
@@ -41,7 +77,8 @@ void JogController::jogDown(){
     move(speed_,0.1*1000,-1);
 }
 
-void JogController::move(float speed, float timeInMin, int){ // we may need to flip directions
+void JogController::move(float speed, float timeInMin, int direction){ // we may need to flip directions
+    currDirection_=direction;
     stoptimer_->setInterval(timeInMin*60.0*1000.0);
     stoptimer_->start();
     speed_=speed;
@@ -60,17 +97,24 @@ void JogController::stopMove(){
 
 
 void JogController::updateState(){
-    float position = calculateCurrentPosition( gant->dyna->getAngle());
+    float position=0;
+    float angle= gant->dyna->getAngle();
     float load = gant->cell->readLoad();
     float time = (float)milliseconds();
-    QVector<float> state(3,0);
+    QVector<float> state(2,0);
     state[0] = time;
-    state[1] = position;
-    state[2] = load;
+    state[1] = angle;
+
+    position = calculateCurrentPosition(state);
+
+    QVector<float> datapoint(3,0);
+    datapoint[0]=time;
+    datapoint[1]=position;
+    datapoint[2]=load;
 
     gant->position=position;
     lastState_=state;
-    emit dataPoint(state);
+    emit dataPoint(datapoint);
 
 
 

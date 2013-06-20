@@ -5,7 +5,7 @@
 
 Dynamixel::Dynamixel(QDomNode confignode, QObject *parent) :
     QObject(parent),initialized_(false), motorNumber_(1),countsPerRevolution_(1005),
-    alpha_(-39.7760880746),beta_(0.0362830709),
+    alphaCW_(-39.7760880746),betaCW_(0.0362830709),alphaCCW_(0.0348805410),betaCCW_(-1.4641653467),
     maxSpeedCW_(2045),minSpeedCW_(1025),
     maxSpeedCCW_(1022),minSpeedCCW_(2)
 {
@@ -25,10 +25,14 @@ Dynamixel::Dynamixel(QDomNode confignode, QObject *parent) :
                 motorNumber_ = lchild.nodeValue().toInt();
             }else if("countersperrev"==lchild.nodeName().toLower()){
                 countsPerRevolution_ = lchild.nodeValue().toFloat();
-            }else if("defaultalpha"==lchild.nodeName().toLower()){
-                alpha_ = lchild.nodeValue().toFloat();
-            }else if("defaultbeta"==lchild.nodeName().toLower()){
-                beta_ = lchild.nodeValue().toFloat();
+            }else if("defaultalphacw"==lchild.nodeName().toLower()){
+                alphaCW_ = lchild.nodeValue().toFloat();
+            }else if("defaultbetacw"==lchild.nodeName().toLower()){
+                betaCW_ = lchild.nodeValue().toFloat();
+            }else if("defaultalphaccw"==lchild.nodeName().toLower()){
+                alphaCCW_ = lchild.nodeValue().toFloat();
+            }else if("defaultbetaccw"==lchild.nodeName().toLower()){
+                betaCCW_ = lchild.nodeValue().toFloat();
             }else if("maxcw"==lchild.nodeName().toLower()){
                 maxSpeedCW_ = lchild.nodeValue().toFloat();
             }else if("mincw"==lchild.nodeName().toLower()){

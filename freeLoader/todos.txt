@@ -2,12 +2,19 @@ TODO:
 
 Implementation:
 * Load config files in config file manager (DONE)
-* write files to CSV in testdata
+* write files to CSV in testdata (DONE)
 * config loading for dyanmixel (DONE)
 * config loading for loadcell   (DONE)
 * Gantry Constructor / config loading (DONE)
 * calculateCurrentPosition
 
+-maybe add deadzone to config file?
+-there are two values of alpha and beta, one for compressive and one for tensile,
+    but our configfile only holds one and our dyna doesn't account for this,
+    so I added them.
+
 
 Conceptual
 * system for querying the potential serial numbers and comports
+
+
