@@ -5,16 +5,22 @@
 #include "configfilemanager.h"
 #include "testdata.h"
 #include "configdialog.h"
+#include "mastercontrolunit.h"
 #include <QtXml/QDomDocument>
 #include <QDebug>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
+    MasterControlUnit mcu;
+
+    /*
     QStringList l;
     l.append("test.csv");
     ConfigDialog cd(l);
     cd.exec();
+    */
     /*
     MainWindow w;
     w.show();
@@ -23,8 +29,10 @@ int main(int argc, char *argv[])
     w.disableTestSettings(true);
     */
 
-    //QDomElement e;
-    /*Dynamixel d( e,0);
+
+    /*
+    QDomElement e;
+    Dynamixel d( e,0);
     d.connect();
     qDebug()<<"angle: "<<d.getAngle();
     d.setAlpha(1.0);
@@ -32,12 +40,14 @@ int main(int argc, char *argv[])
     d.setSpeed(250);
     Sleep(1000);
     qDebug()<<"angle: "<<d.getAngle();
-    d.stop();*/
+    d.stop();
+    */
 
-    //LoadCell l(e,0);
-    //l.open();
-
-    //qDebug()<<"Load: "<<l.readLoad();
-    return 0;
+    /*
+    QDomElement e;
+    LoadCell l(e,0);
+    l.open();
+    qDebug()<<"Load: "<<l.readLoad();
+    */
     return a.exec();
 }

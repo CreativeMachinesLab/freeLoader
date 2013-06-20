@@ -6,7 +6,8 @@
 #include "experimentcontroller.h"
 #include "configfilemanager.h"
 #include "gantry.h"
-#include <QMainWindow>
+#include "mainwindow.h"
+#include "configdialog.h"
 
 class MasterControlUnit : public QObject
 {
@@ -29,7 +30,7 @@ public slots:
     void endExperiment(); // change UI and disable connections
     
 public:
-    QMainWindow *window_;
+    MainWindow *window_;
     ExperimentController *xp_;
     JogController *jog_;
     Gantry *gant_;

@@ -15,11 +15,15 @@ ConfigFileManager::ConfigFileManager(QObject *parent): QObject(parent)
         }
     }
 
+    //TESTING
+    files_.append("test1.csv");
+    files_.append("test2.csv");
+
 
 }
 
 
-QList<QString> ConfigFileManager::getFileNames(){// returns list of config files
+QStringList ConfigFileManager::getFileNames(){// returns list of config files
     return files_;
 }
 
