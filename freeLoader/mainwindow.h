@@ -20,6 +20,7 @@ public slots:
     void disableJog(bool disabled);
     void disableTestSettings(bool disabled);
     void disableTesting(bool disabled);
+    void disableMovementTest(bool disabled);
 
     //set at dyna connect
     void setSpeedMin(float min);
@@ -35,12 +36,15 @@ public slots:
     void jogSliderUpdated();
     void testSpinUpdated();
     void testSliderUpdated();
+    void filenameChanged();
 
 private:
     Ui::MainWindow *ui;
     float minSpeed_;
     float maxSpeed_;
     float ticksPerMMPerMin_;
+    bool jogToggle_;
+    bool testToggle_;
 };
 
 #endif // MAINWINDOW_H

@@ -45,6 +45,7 @@ LIBS += -L$$quote($$PWD/lib) -lftd2xx
 MOC_DIR = moc
 OBJECTS_DIR = obj
 DESTDIR = bin
+UI_DIR = ui
 
 OTHER_FILES += \
     default.config \

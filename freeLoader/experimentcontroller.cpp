@@ -50,12 +50,23 @@ void ExperimentController::startExperiment(){
 
     connect(this,SIGNAL(dataPoint(QVector<float>)),data_,SLOT(addData(QVector<float>)));
 
-    if(kTensile==type_){
+    switch(type_){
+    case kTensile:
         move(speed_,time,1);
-    }else if (kCompression==type_){
+        break;
+    case kCompression:
         move(speed_,time,-1);
-    }else{
-        qDebug()<<"Error unknown test type: "<<type_;
+        break;
+    case kReading:
+        if (kTime==condi_){
+            stopMove();
+            speed_=0;
+            break;
+        }
+        qDebug()<<"Error Can only run time tests without dynamixel";
+
+    default:
+        qDebug()<<"Error  with test type: "<<type_;
         emit unableToStart();
         disconnect(this,SIGNAL(dataPoint(QVector<float>)),data_,SLOT(addData(QVector<float>)));
         data_->clearData();

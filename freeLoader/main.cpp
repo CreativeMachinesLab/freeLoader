@@ -28,6 +28,8 @@ int main(int argc, char *argv[])
     //l.open();
 
     //qDebug()<<"Load: "<<l.readLoad();
-    w.disableJog(true);
+    w.setSpeedMax(30.0);
+    w.setSpeedMin(0.1);
+
     return a.exec();
 }

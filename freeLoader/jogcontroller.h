@@ -2,7 +2,7 @@
 #define JOGCONTROLLER_H
 
 #include <QObject>
-#include <gantry.h>
+#include "gantry.h"
 #include <QTimer>
 
 class JogController : public QObject

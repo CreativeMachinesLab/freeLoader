@@ -4,17 +4,18 @@
 #include "jogcontroller.h"
 #include "testdata.h"
 
+enum TestType{
+    kTensile,
+    kCompression,
+    kReading
+};
+enum EndCondition{
+  kTime,
+  kDistance
+};
+
 class ExperimentController : public JogController
 {
-    enum TestType{
-        kTensile,
-        kCompression
-    };
-    enum EndCondition{
-      kTime,
-      kDistance
-    };
-
     Q_OBJECT
 public:
     explicit ExperimentController(Gantry* gant, QObject *parent = 0);
