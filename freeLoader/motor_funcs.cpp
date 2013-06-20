@@ -168,12 +168,12 @@ int read_encoder(FT_HANDLE ftHandleDYNA, int motorNum)
     if( ft_status == FT_IO_ERROR )
     {
         qDebug() << "\n\nError sending encoder packet to motor!";
-        return 0;
+        return -1;
     }
     if(numPacket != dwNumWritten)
     {
         qDebug() << "\n\nAll Bytes of encoder packet were not written to device!";
-        return 0;
+        return -1;
     }
 
     //get status packet
@@ -185,7 +185,7 @@ int read_encoder(FT_HANDLE ftHandleDYNA, int motorNum)
     if( ft_status != FT_OK )
     {
         qDebug() << "\n\nError receiving encoder status packet, Queue not empty!";
-        return 0;
+        return -1;
     }
     if( dwNumToRead > 0 )
     {
@@ -193,10 +193,11 @@ int read_encoder(FT_HANDLE ftHandleDYNA, int motorNum)
         if( ft_status == FT_IO_ERROR )
         {
             qDebug() << "\n\nError reading encoder value!";
-            return 0;
+            return -1;
         }
     }else{
         qDebug()<<"\n\nERROR: dwNumToRead = 0";
+        return -1;
     }
 
     return makeword((int)StatusPacket[PARAMETER], (int)StatusPacket[PARAMETER+1]);

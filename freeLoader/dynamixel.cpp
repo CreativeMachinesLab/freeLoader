@@ -81,10 +81,23 @@ bool Dynamixel::isInitialized(){
 
 float Dynamixel::getAngle(){
     if(initialized_){
-        float angle =(float)read_encoder(ftHandleDYNA_, motorNumber_);
-        return angle/countsPerRevolution_*360;
+        int counts =65532;
+        int reads=0;
+        while( (counts>countsPerRevolution_) || (counts<0) ){
+            counts =read_encoder(ftHandleDYNA_, motorNumber_);
+            reads++;
+            if (reads>100){
+                emit failedToRead();
+                return -1;
+            }
+        }
+
+        float angle= counts/countsPerRevolution_*360;
+        qDebug()<<"!!\t read: "<<reads<<"\t counts"<<counts<<" angle"<<angle;
+
+        return angle;
     }
-    return 0;
+    return -1;
 }
 
 // Internal values from config. Used for UI display
@@ -120,9 +133,9 @@ int Dynamixel::speedToInternalSpeed(float speedInMMperMin){
     qDebug()<<"dir: "<<dir;
 
     if(dir>0){ //CW
-        return floor((absspeedinmmpermin-betaCW_)/alphaCW_);
+        return floor((alphaCCW_*absspeedinmmpermin+betaCW_));
     }else{           //CCW
-        return floor((absspeedinmmpermin-betaCCW_)/alphaCCW_);// TODO FORMULA IS WRONG!!!!
+        return floor((alphaCCW_*absspeedinmmpermin+betaCCW_));// TODO FORMULA IS WRONG!!!!
     }
 
 }
@@ -130,9 +143,9 @@ int Dynamixel::speedToInternalSpeed(float speedInMMperMin){
 float Dynamixel::internalSpeedToSpeed(int speedinticks, int direction){
     if(direction>0){ //CW
 
-    return alphaCW_*speedinticks+betaCW_;
+    return (speedinticks-betaCW_)/alphaCW_;
     }else{           //CCW
-    return alphaCCW_*speedinticks+betaCCW_;
+    return (speedinticks-betaCCW_)/alphaCCW_;
     }
 }
 

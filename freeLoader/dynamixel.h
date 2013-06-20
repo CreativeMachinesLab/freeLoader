@@ -42,6 +42,7 @@ signals:
     void failedToOpen();
     void closed();
     void failedToClose();
+    void failedToRead();
 
 private:
     int speedToInternalSpeed(float speedInMMperMin);
