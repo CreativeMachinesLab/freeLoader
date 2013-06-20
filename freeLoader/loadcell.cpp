@@ -32,29 +32,29 @@ LoadCell::LoadCell(QDomNode confignode, QObject *parent) :
             QDomNode lchild = locChildren.at(j);
 
             if("comport"==lchild.nodeName().toLower()){
-                std::wstring tempNum = lchild.nodeValue().toStdWString();
+                std::wstring tempNum = lchild.firstChild().nodeValue().toStdWString();
                 comNum=L"com";
                 comNum+=tempNum;
             }else if("readintervaltimeout"==lchild.nodeName().toLower()){
-                ReadIntervalTimeout_ = lchild.nodeValue().toInt();
+                ReadIntervalTimeout_ = lchild.firstChild().nodeValue().toInt();
             }else if("readtotaltimeoutconstant"==lchild.nodeName().toLower()){
-                ReadTotalTimeoutConstant_ = lchild.nodeValue().toInt();
+                ReadTotalTimeoutConstant_ = lchild.firstChild().nodeValue().toInt();
             }else if("readtotaltimeoutmultiplier"==lchild.nodeName().toLower()){
-                ReadTotalTimeoutMultiplier_ = lchild.nodeValue().toInt();
+                ReadTotalTimeoutMultiplier_ = lchild.firstChild().nodeValue().toInt();
             }else if("writetotaltimeoutconstant"==lchild.nodeName().toLower()){
-                WriteTotalTimeoutConstant_ = lchild.nodeValue().toInt();
+                WriteTotalTimeoutConstant_ = lchild.firstChild().nodeValue().toInt();
             }else if("writetotaltimeoutmultiplier"==lchild.nodeName().toLower()){
-                WriteTotalTimeoutMultiplier_ = lchild.nodeValue().toInt();
+                WriteTotalTimeoutMultiplier_ = lchild.firstChild().nodeValue().toInt();
             }else if("baudrate"==lchild.nodeName().toLower()){
-                BaudRate_ = lchild.nodeValue().toInt();
+                BaudRate_ = lchild.firstChild().nodeValue().toInt();
             }else if("bytesize"==lchild.nodeName().toLower()){
-                ByteSize_ = lchild.nodeValue().toInt();
+                ByteSize_ = lchild.firstChild().nodeValue().toInt();
             }else if("stopbits"==lchild.nodeName().toLower()){
-                StopBits_ = lchild.nodeValue().toInt();
+                StopBits_ = lchild.firstChild().nodeValue().toInt();
             }else if("parity"==lchild.nodeName().toLower()){
-                Parity_ = lchild.nodeValue().toInt();
+                Parity_ = lchild.firstChild().nodeValue().toInt();
             }else if("maxforce"==lchild.nodeName().toLower()){
-                maxForce_ = lchild.nodeValue().toFloat();
+                maxForce_ = lchild.firstChild().nodeValue().toFloat();
             }
         }
     } else {

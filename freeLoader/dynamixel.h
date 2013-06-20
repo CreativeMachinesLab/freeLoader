@@ -26,11 +26,14 @@ public:
     float getMinSpeedCCW();
     float getMinSpeedCW();
 
+    float getdzFloor();
+    float getdzCeiling();
+    int getClicksPerInch();
+    float getcountsPerRev();
+
 public slots:
     void connect(); // Initiallizes the motor and generates the ftHandleDYNA
     void setSpeed(float mmPerMin); // Sets the speed of the unit and runs any future PID control loop. +=CW -=CCW
-    void setAlpha(float a);
-    void setBeta(float b);
     void stop();
 
 
@@ -41,8 +44,8 @@ signals:
     void failedToClose();
 
 private:
-    int speedToInternalSpeed(float speedInMMperMin);
-    float internalSpeedToSpeed(int speedinticks);
+    int speedToInternalSpeed(float speedInMMperMin, int direction);
+    float internalSpeedToSpeed(int speedinticks, int direction);
 
     serialnumber serialNumber_;
     FT_HANDLE ftHandleDYNA_;
@@ -55,10 +58,13 @@ private:
     float betaCW_;
     float alphaCCW_;
     float betaCCW_;
+    int dzFloor_;   //deadzone floor and ceiling in ticks
+    int dzCeiling_;
     float maxSpeedCW_; // in internalspeed
     float minSpeedCW_;// in internalSpeed
     float maxSpeedCCW_;// in internalSpeed
     float minSpeedCCW_;// in InternalSpeed
+    int clicksPerInch_;
 };
 
 #endif // DYNAMIXEL_H

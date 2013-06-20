@@ -1,6 +1,7 @@
 #include "configfilemanager.h"
 #include <QFile>
-
+#include <QDomElement>
+#include <QDebug>
 ConfigFileManager::ConfigFileManager(QObject *parent): QObject(parent)
 {
     ConfigFileDir_ = QDir(QDir::currentPath()+"\\\\configs");
@@ -24,16 +25,19 @@ QList<QString> ConfigFileManager::getFileNames(){// returns list of config files
     return files_;
 }
 
- QDomElement loadFile(QString name){
+ QDomElement ConfigFileManager::loadFile(QString name){
     /// Open file, load into a DOM structure
     /// emit error if failed
 
      //open up the file in 'name'
      QFile theConfigFile(name);
      QDomDocument configDomDocument;
-     if( !configDomDocument.setContent( &theConfigFile ) )
+     QString error;
+     int line, col;
+     if( !configDomDocument.setContent( &theConfigFile, &error, &line , &col) )
      {
-       qDebug( "Failed to parse the file into a DOM tree." );
+       qDebug( "Failed to parse the file into a DOM tree:" );
+       qDebug()<<error<<" at line"<<line<<", column "<<col;
        theConfigFile.close();
        QDomElement EmptyElement;
        return EmptyElement;

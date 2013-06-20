@@ -27,12 +27,14 @@ float JogController::calculateCurrentPosition(QVector<float> state ){
     //according to John, we have 61440 clicks/in = 21600 degrees/in
     //=850.39370079 degrees/mm
 
-    float degreesPermm=850.39370079; //this probably shouldn't be hardcoded
+    int clicksPerInch=gant->dyna->getClicksPerInch();
+    int clicksPerRotation=gant->dyna->getcountsPerRev();
+    float degreesPermm=clicksPerInch*360/clicksPerRotation/2.54;
 
     //deadzone floor and ceiling
-    float dzCeiling=353.33; //these probably shouldn't be hardcoded
+    float dzCeiling=gant->dyna->getdzCeiling();
 
-    float dzFloor=1.76;
+    float dzFloor=gant->dyna->getdzFloor();
 
     //state info
     float currAngle=state[1];

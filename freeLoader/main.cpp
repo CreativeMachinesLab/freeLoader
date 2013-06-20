@@ -4,16 +4,23 @@
 #include "loadcell.h"
 #include "configfilemanager.h"
 #include "testdata.h"
+#include "gantry.h"
 #include <QtXml/QDomDocument>
 #include <QDebug>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
+    ConfigFileManager conf;
+    QDomElement e=conf.loadFile("default.config");
+    Gantry * gant;
+    gant = new Gantry(e);
+    //qDebug()<<gant->mmPerRev;
+
+    //MainWindow w;
+    //w.show();
     
-    QDomElement e;
+
     /*Dynamixel d( e,0);
     d.connect();
     qDebug()<<"angle: "<<d.getAngle();
@@ -28,6 +35,6 @@ int main(int argc, char *argv[])
     //l.open();
 
     //qDebug()<<"Load: "<<l.readLoad();
-    w.disableJog(true);
+   // w.disableJog(true);
     return a.exec();
 }
