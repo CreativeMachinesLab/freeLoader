@@ -16,4 +16,34 @@ Implementation:
 
 
 
+            //=======================================================
+            //Recalculated motor rotation speed command.
+            //=======================================================
+                double rot_speed, rpm_mmPerMin, unit_rpm; //,alpha,beta;
+
+                // 2.95 rotations per minute of the motor (theoretically) corresponds to 1 mm/min of crosshead travel.
+                // This is a function of the machine's geometry. We found it experimnetally to be 1.895 rotations per minute.
+                rpm_mmPerMin = 1.895;
+
+                // 1 unit of motor encoder speed corresponds to about 0.114 rpm.
+                // This number can be found in the MX-64 datasheet.
+                // http://support.robotis.com/en/product/dynamixel/mx_series/mx-64.htm#Actuator_Address_24
+                // Experimentally we found this number to be 0.125 instead of 0.114
+                unit_rpm = 1/ 0.125;
+
+                if (test == 1) // tension test, speeds 1024-2046 (motor rotates CW)
+                {
+                    //beta = -39.7760880746;
+                    //alpha = 0.0362830709;
+                    rot_speed = speed * rpm_mmPerMin * unit_rpm;
+                    rot_speed = rot_speed + 1024;
+                }
+                else if (test == 2) //compression test, speeds 1-1023 (motor rotates CCW)
+                {
+                    //beta = -1.4641653467;
+                    //alpha = 0.0348805410;
+                    rot_speed = speed * rpm_mmPerMin * unit_rpm;
+                }
+
+
 
