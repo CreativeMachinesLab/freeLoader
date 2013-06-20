@@ -28,7 +28,7 @@ public:
 
     float getdzFloor();
     float getdzCeiling();
-    int getClicksPerInch();
+
     float getcountsPerRev();
 
 public slots:
@@ -64,7 +64,7 @@ private:
     float minSpeedCW_;// in internalSpeed
     float maxSpeedCCW_;// in internalSpeed
     float minSpeedCCW_;// in InternalSpeed
-    int clicksPerInch_;
+
 };
 
 #endif // DYNAMIXEL_H

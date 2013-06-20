@@ -4,7 +4,7 @@
 #include <QDebug>
 
 JogController::JogController(Gantry *gant, QObject *parent) :
-    QObject(parent),speed_(1.0), currDirection_(1)
+    QObject(parent),speed_(1.0), currDirection_(1), lastState_(2,0)
 {
     gant_=gant;
     stoptimer_=new QTimer();
@@ -32,9 +32,11 @@ float JogController::calculateCurrentPosition(QVector<float> state ){
     //according to John, we have 61440 clicks/in = 21600 degrees/in
     //=850.39370079 degrees/mm
 
-    int clicksPerInch=gant_->dyna->getClicksPerInch();
-    int clicksPerRotation=gant_->dyna->getcountsPerRev();
-    float degreesPermm=clicksPerInch*360/clicksPerRotation/2.54;
+
+    float mmPerRev=gant_->mmPerRev;
+
+
+    float degreesPermm=360.0/mmPerRev;
 
     //deadzone floor and ceiling
     float dzCeiling=gant_->dyna->getdzCeiling();
@@ -66,7 +68,7 @@ float JogController::calculateCurrentPosition(QVector<float> state ){
     }
 
     float lastPos=gant_->position; //query the gantry for last position
-
+  qDebug()<<"dPos: "<<dPos<<"\tPosition: "<<lastPos;
     return lastPos+dPos; //return updated position
 }
 
@@ -105,6 +107,13 @@ void JogController::startMove(){
     updatetimer_->start();
     gant_->dyna->setSpeed(speed_*currDirection_);
     qDebug()<<"starting move";
+    float angle= gant_->dyna->getAngle();
+    float time = (float)milliseconds();
+    QVector<float> state(2,0);
+    state[0] = time;
+    state[1] = angle;
+    lastState_=state;
+
 }
 void JogController::stopMove(){
     gant_->dyna->stop();
@@ -128,6 +137,7 @@ void JogController::updateState(){
     state[0] = time;
     state[1] = angle;
 
+    qDebug()<<"time: "<<time<<"\tangle: "<<angle;
     position = calculateCurrentPosition(state);
 
     QVector<float> datapoint(3,0);

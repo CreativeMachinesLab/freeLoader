@@ -52,8 +52,6 @@ Dynamixel::Dynamixel(QDomNode confignode, QObject *parent) :
                 maxSpeedCCW_ = lchild.firstChild().nodeValue().toFloat();
             }else if("minccw"==lchild.nodeName().toLower()){
                 minSpeedCCW_ = lchild.firstChild().nodeValue().toFloat();
-            }else if("clicksperinch"==lchild.nodeName().toLower()){
-                minSpeedCCW_ = lchild.firstChild().nodeValue().toFloat();
             }
         }
     } else {
@@ -110,9 +108,7 @@ float  Dynamixel::getdzCeiling(){
     return dzCeiling_;
 }
 
-int  Dynamixel::getClicksPerInch(){
-    return clicksPerInch_;
-}
+
 
 float  Dynamixel::getcountsPerRev(){
     return countsPerRevolution_;
