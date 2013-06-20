@@ -30,6 +30,9 @@ int main(int argc, char *argv[])
     //qDebug()<<"Load: "<<l.readLoad();
     w.setSpeedMax(30.0);
     w.setSpeedMin(0.1);
-
+    QVector<float> d(3,10.0);
+    w.addPoint(d);
+    w.addPoint(d);
+    w.addPoint(d);
     return a.exec();
 }

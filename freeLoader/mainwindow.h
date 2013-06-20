@@ -29,6 +29,8 @@ public slots:
     void testStarted();
     void testEnded();
 
+    void addPoint(QVector<float> point);
+
 
 
     // Internal because we didnt do this right

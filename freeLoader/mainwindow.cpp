@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QTextStream>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -70,6 +71,15 @@ void MainWindow::testEnded(){
     disableTesting(true);
 }
 
+void MainWindow::addPoint(QVector<float> point){
+    if(point.size()<3){return;}
+    QString toadd="\n";
+    QTextStream ss(&toadd,QIODevice::WriteOnly);
+    ss<<QString::number(point[0])<<",\t"
+      <<QString::number(point[1])<<",\t"
+      <<QString::number(point[2]);
+    ui->dataPlainTextEdit->appendPlainText(toadd);
+}
 
 
 // Internal because we didnt do this right
