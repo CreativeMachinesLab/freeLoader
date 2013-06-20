@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     jogcontroller.cpp \
     experimentcontroller.cpp \
     mastercontrolunit.cpp \
-    configdialog.cpp
+    configdialog.cpp \
+    serialdiscoverydialog.cpp
 
 
 HEADERS  += mainwindow.h\
@@ -38,11 +39,13 @@ HEADERS  += mainwindow.h\
     jogcontroller.h \
     experimentcontroller.h \
     mastercontrolunit.h \
-    configdialog.h
+    configdialog.h \
+    serialdiscoverydialog.h
 
 
 FORMS    += mainwindow.ui \
-    configdialog.ui
+    configdialog.ui \
+    serialdiscoverydialog.ui
 
 
 LIBS += -L$$quote($$PWD/lib) -lftd2xx

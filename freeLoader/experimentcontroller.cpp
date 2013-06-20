@@ -2,7 +2,7 @@
 #include <QDateTime>
 #include <QDebug>
 
-bool XPTESTING=true;
+bool XPTESTING=false;
 
 
 ExperimentController::ExperimentController(Gantry *gant, QString filename, QObject *parent):

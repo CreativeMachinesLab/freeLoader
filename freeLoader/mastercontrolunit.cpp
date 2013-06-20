@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <QtXml>
 
-bool TESTING = true;
+bool TESTING = false;
 
 MasterControlUnit::MasterControlUnit(QObject *parent) :
     QObject(parent)
@@ -19,7 +19,10 @@ MasterControlUnit::MasterControlUnit(QObject *parent) :
     xp_ = new ExperimentController(gant_,QDateTime::currentDateTimeUtc().toString()+".csv", this);
 
     window_->show();
-    window_->setDisabled(true);
+
+    window_->disableJog(true);
+    window_->disableTesting(true);
+    window_->disableTestSettings(true);
 
 
     QTimer::singleShot(0,this,SLOT(promtForConfig()));
@@ -66,7 +69,11 @@ void MasterControlUnit::setConfig(QString filename){
     }
 
     // enable ui elements
-    window_->setDisabled(false);
+    window_->disableJog(true);
+    window_->disableTesting(true);
+    window_->disableTestSettings(true);
+//    window_->setDisabled(false);
+
 
     if(!gant_->dyna->isInitialized() && (true!=TESTING)){
         window_->disableJog(true);

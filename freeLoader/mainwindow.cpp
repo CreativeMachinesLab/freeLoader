@@ -2,11 +2,23 @@
 #include "ui_mainwindow.h"
 #include <QTextStream>
 
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),minSpeed_(0.1),maxSpeed_(30.0),ticksPerMMPerMin_(1000),jogToggle_(true),testToggle_(true)
 {
     ui->setupUi(this);
+
+    QMenu *menuFile = new QMenu("File");
+    QAction *actionSerial;
+    actionSerial = new QAction("&Discover Serial Numbers",this);
+    actionSerial->setShortcut(QKeySequence("d"));
+    menuFile->addAction(actionSerial);
+    menuBar()->addMenu(menuFile);
+    connect(actionSerial,SIGNAL(triggered()),this,SLOT(serialDiscovery()));
+
+
+
     connect(ui->jogSpeedSlider,SIGNAL(sliderMoved(int)),this,SLOT(jogSliderUpdated()));
     connect(ui->jogSpeedDoubleSpinBox,SIGNAL(valueChanged(double)),this,SLOT(jogSpinUpdated()));
     connect(ui->testSpeedHSlider,SIGNAL(sliderMoved(int)),this,SLOT(testSliderUpdated()));
@@ -86,6 +98,11 @@ void MainWindow::testEnded(){
 
 void MainWindow::setPercent(int per){
     ui->progressBar->setValue(per);
+}
+
+void MainWindow::serialDiscovery(){
+    SerialDiscoveryDialog d;
+    d.exec();
 }
 
 void MainWindow::addPoint(QVector<float> point){

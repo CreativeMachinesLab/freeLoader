@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "experimentcontroller.h"
+#include "serialdiscoverydialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -38,6 +39,7 @@ public slots:
     void setPercent(int per);
 
 
+    void serialDiscovery();
 
     // Internal because we didnt do this right
     void jogSpinUpdated();
