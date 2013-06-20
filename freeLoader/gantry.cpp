@@ -8,11 +8,7 @@ Gantry::Gantry(QDomNode configfile, QObject *parent) :
     ///MAKE DYNA AND CELL
     ///Connect DYNA AND CELL
     ///Connect cell.maxforce to dyna.stop
-    QDomElement e;
-    dyna= new Dynamixel(e);
-    cell = new LoadCell(e);
-//    dyna->connect();
-//    cell->open();
+
 
 
     QDomNode dynaConfig;
@@ -62,8 +58,8 @@ Gantry::Gantry(QDomNode configfile, QObject *parent) :
 
     dyna = new Dynamixel(dynaConfig, this);
     cell = new LoadCell(cellConfig,this);
+    init_timer();
 
-    qDebug()<<"CONNECTING NOW";
     dyna->connect();
     cell->open();
 

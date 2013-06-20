@@ -6,7 +6,7 @@
 #include "dynamixel.h"
 #include "loadcell.h"
 #include <QVector>
-
+#include "tic_toc.h"
 
 class Gantry : public QObject
 {
