@@ -16,7 +16,7 @@ MasterControlUnit::MasterControlUnit(QObject *parent) :
     QDomNode n;
     gant_ = new Gantry(n,this);
     jog_ = new JogController(gant_,this);
-    xp_ = new ExperimentController(gant_,QDateTime::currentDateTimeUtc().toString()+".csv", this);
+    xp_ = new ExperimentController(gant_,QDateTime::currentDateTimeUtc().toString().replace(":","-")+".csv", this);
 
     window_->show();
 
@@ -45,7 +45,7 @@ void MasterControlUnit::setConfig(QString filename){
     QDomNode n= configs_->loadFile(filename);// make gant, setup connections to UI or loop to prompt
     gant_ = new Gantry(n,this);
     jog_ = new JogController(gant_,this);
-    xp_ = new ExperimentController(gant_,QDateTime::currentDateTimeUtc().toString()+".csv", this);
+    xp_ = new ExperimentController(gant_,QDateTime::currentDateTimeUtc().toString().replace(":","-")+".csv", this);
     window_->setFileName(xp_->getFileName());
     connect(gant_->dyna,SIGNAL(failedToClose()),this,SLOT(failedToCloseDyna()));
     connect(gant_->cell,SIGNAL(failedToClose()),this,SLOT(failedToCloseLoadCell()));
@@ -63,15 +63,14 @@ void MasterControlUnit::setConfig(QString filename){
     }
 
     if( !( gant_->dyna->isInitialized() && gant_->cell->isInitialized() ) && (true!=TESTING)){
-//        QMessageBox::warning(window_,"","Failled to Connect to system");
         QTimer::singleShot(0,this,SLOT(promtForConfig()));
         return;
     }
 
     // enable ui elements
-    window_->disableJog(true);
-    window_->disableTesting(true);
-    window_->disableTestSettings(true);
+    window_->disableJog(false);
+    window_->disableTesting(false);
+    window_->disableTestSettings(false);
 //    window_->setDisabled(false);
 
 
@@ -118,13 +117,15 @@ void MasterControlUnit::beginExperiment(){
 }
 void MasterControlUnit::endExperiment(){
     qDebug()<<"end experiment";
-    window_->setFileName(QDateTime::currentDateTimeUtc().toString()+".csv");
+    window_->setFileName(QDateTime::currentDateTimeUtc().toString().replace(":","-")+".csv");
 }
 
 void MasterControlUnit::cantStartXP(){
     QMessageBox::warning(window_,"","Failled to Start Experiment");
 }
 void MasterControlUnit::forceOverLoad(){
+    xp_->stopExperiment();
+    jog_->stopMove();
     QMessageBox::warning(window_,"","FORCE OVERLOAD!!!!");
 }
 void MasterControlUnit::failedToOpenDyna(){

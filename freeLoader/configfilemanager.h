@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QDir>
-#include <QtXML/QDomDocument>
+#include <QtXML>
 #include <QVector>
 
 class ConfigFileManager: public QObject

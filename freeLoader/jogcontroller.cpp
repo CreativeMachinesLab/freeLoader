@@ -32,14 +32,14 @@ float JogController::calculateCurrentPosition(QVector<float> state ){
     //according to John, we have 61440 clicks/in = 21600 degrees/in
     //=850.39370079 degrees/mm
 
-    int clicksPerInch=gant->dyna->getClicksPerInch();
-    int clicksPerRotation=gant->dyna->getcountsPerRev();
+    int clicksPerInch=gant_->dyna->getClicksPerInch();
+    int clicksPerRotation=gant_->dyna->getcountsPerRev();
     float degreesPermm=clicksPerInch*360/clicksPerRotation/2.54;
 
     //deadzone floor and ceiling
-    float dzCeiling=gant->dyna->getdzCeiling();
+    float dzCeiling=gant_->dyna->getdzCeiling();
 
-    float dzFloor=gant->dyna->getdzFloor();
+    float dzFloor=gant_->dyna->getdzFloor();
 
     //state info
     float currAngle=state[1];
@@ -65,13 +65,13 @@ float JogController::calculateCurrentPosition(QVector<float> state ){
         }
     }
 
-    float lastPos=gant->position; //query the gantry for last position
+    float lastPos=gant_->position; //query the gantry for last position
 
     return lastPos+dPos; //return updated position
 }
 
-void JogController::setSpeed(float speed){ // speed is in ABS values here
-    speed_=fabs(speed);
+void JogController::setSpeed(float speedInMMPerMinABS){ // speed is in ABS values here
+    speed_=fabs(speedInMMPerMinABS);
 }
 void JogController::setHome(){
     stopMove();
@@ -93,17 +93,17 @@ void JogController::jogDown(){
     move(speed_,0.1/60.0,-1);
 }
 
-void JogController::move(float speed, float timeInMin, int direction){ // we may need to flip directions
+void JogController::move(float speedInMMPerMinABS, float timeInMin, int direction){ // we may need to flip directions
     currDirection_=direction;
     stoptimer_->setInterval(timeInMin*60.0*1000.0);
     stoptimer_->start();
-    speed_=speed;
+    speed_=speedInMMPerMinABS;
     startMove();
 }
 
 void JogController::startMove(){
     updatetimer_->start();
-    gant_->dyna->setSpeed(speed_);
+    gant_->dyna->setSpeed(speed_*currDirection_);
     qDebug()<<"starting move";
 }
 void JogController::stopMove(){
@@ -116,8 +116,8 @@ void JogController::stopMove(){
 
 void JogController::updateState(){
     float position=0;
-    float angle= gant->dyna->getAngle();
-    float position = calculateCurrentPosition( gant_->dyna->getAngle());
+    float angle= gant_->dyna->getAngle();
+
     float load=0;
 
     if(gant_->cell->isInitialized()){

@@ -41,7 +41,7 @@ bool TestData::writeToFile(){
 
     QFile fileToWrite(filename_);
     if(!(fileToWrite.open(QIODevice::WriteOnly | QIODevice::Text))){
-        qDebug()<<"Failed to open writefile";
+        qDebug()<<"Failed to open writefile "<<filename_;
         return false;
     }else{
         QTextStream writeStream(&fileToWrite);

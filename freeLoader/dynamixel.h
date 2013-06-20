@@ -44,7 +44,7 @@ signals:
     void failedToClose();
 
 private:
-    int speedToInternalSpeed(float speedInMMperMin, int direction);
+    int speedToInternalSpeed(float speedInMMperMin);
     float internalSpeedToSpeed(int speedinticks, int direction);
 
     serialnumber serialNumber_;

@@ -12,9 +12,8 @@ Implementation:
 -there are two values of alpha and beta, one for compressive and one for tensile,
     but our configfile only holds one and our dyna doesn't account for this,
     so I added them.
+* NEED TO FIX CCW internal speed calculation
 
 
-Conceptual
-* system for querying the potential serial numbers and comports
 
 

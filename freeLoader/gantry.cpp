@@ -25,8 +25,6 @@ Gantry::Gantry(QDomNode configfile, QObject *parent) :
         if(gantchild.parentNode().nodeName()=="freeloader")
         {
 
-
-
             if (gantchild.isComment()) {continue;}
 
             if ("dynamixel" == gantchild.nodeName().toLower()) {
@@ -53,15 +51,19 @@ Gantry::Gantry(QDomNode configfile, QObject *parent) :
 
 
             }
+            qDebug()<<"Child: "<<dynaConfig.nodeName().toLower();
         }
 
     }
 
     //create the gantry elements with the information we just extracted
+    qDebug()<<"Dynaconfig: "<<dynaConfig.nodeName().toLower();
+    qDebug()<<"LoadCell config: "<<cellConfig.nodeName().toLower();
 
     dyna = new Dynamixel(dynaConfig, this);
     cell = new LoadCell(cellConfig,this);
 
+    qDebug()<<"CONNECTING NOW";
     dyna->connect();
     cell->open();
 
