@@ -120,6 +120,7 @@ void JogController::move(float speedInMMPerMinABS, float timeInMin, int directio
     stoptimer_->start();
     speed_=speedInMMPerMinABS;
     startMove();
+
 }
 
 void JogController::startMove(){
@@ -134,6 +135,8 @@ void JogController::startMove(){
     state[0] = time;
     state[1] = angle;
     lastState_=state;
+    QVector<float> datapoint(3,0);
+    emit dataPoint(datapoint);
 
 }
 void JogController::stopMove(){
