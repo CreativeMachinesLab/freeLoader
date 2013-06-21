@@ -47,14 +47,14 @@ Gantry::Gantry(QDomNode configfile, QObject *parent) :
 
 
             }
-            qDebug()<<"Child: "<<dynaConfig.nodeName().toLower();
+
         }
 
     }
 
     //create the gantry elements with the information we just extracted
-    qDebug()<<"Dynaconfig: "<<dynaConfig.nodeName().toLower();
-    qDebug()<<"LoadCell config: "<<cellConfig.nodeName().toLower();
+//    qDebug()<<"Dynaconfig: "<<dynaConfig.nodeName().toLower();
+//    qDebug()<<"LoadCell config: "<<cellConfig.nodeName().toLower();
 
     dyna = new Dynamixel(dynaConfig, this);
     cell = new LoadCell(cellConfig,this);

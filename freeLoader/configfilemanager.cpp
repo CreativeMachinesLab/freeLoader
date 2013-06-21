@@ -32,7 +32,6 @@ QDomNode ConfigFileManager::loadFile(QString name){
 
 
 
-      qDebug()<<"\n\nopening file";
      //open up the file in 'name'
      QString fname = name;
      QFile theConfigFile(fname);

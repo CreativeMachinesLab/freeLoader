@@ -100,7 +100,10 @@ void JogController::setHome(float distinmm){
 }
 void JogController::goHome(){
     float time = fabs(gant_->position/speed_);
-    int direction = (int) gant_->position/fabs(gant_->position);
+    int direction=1;
+    if (gant_->position>0){direction = -1;}
+
+    qDebug()<<"SET go home time: "<<time<<"\t direction"<<direction<<"\t speed: "<<speed_;
     move(speed_,time,direction);
 }
 
@@ -156,7 +159,7 @@ void JogController::updateState(){
     state[0] = time;
     state[1] = angle;
 
-    qDebug()<<"time: "<<time<<"\tangle: "<<angle;
+
     position = calculateCurrentPosition(state);
 
     QVector<float> datapoint(3,0);

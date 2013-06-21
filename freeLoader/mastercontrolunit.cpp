@@ -36,7 +36,7 @@ void MasterControlUnit::promtForConfig(){
     cd->exec();
 }
 void MasterControlUnit::setConfig(QString filename){
-    qDebug()<<"selected "<< filename;
+//    qDebug()<<"selected "<< filename;
 
     delete gant_;
     delete jog_;
@@ -116,7 +116,7 @@ void MasterControlUnit::beginExperiment(){
 
 }
 void MasterControlUnit::endExperiment(){
-    qDebug()<<"end experiment";
+//    qDebug()<<"end experiment";
     window_->setFileName(QDateTime::currentDateTimeUtc().toString().replace(":","-")+".csv");
 }
 

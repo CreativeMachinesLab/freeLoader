@@ -48,7 +48,7 @@ void ExperimentController::startExperiment(){
 
     connect(this,SIGNAL(dataPoint(QVector<float>)),data_,SLOT(addData(QVector<float>)));
 
-    qDebug()<< "EXP: TIME: "<<time <<" (min)";
+//    qDebug()<< "EXP: TIME: "<<time <<" (min)";
     switch(type_){
     case kTensile:
         move(speed_,time,1);
@@ -72,7 +72,7 @@ void ExperimentController::startExperiment(){
         return;
     }
     percentTimer_->setInterval(time*60*10);//time in min * 60= time in s  time in s*1000 = time in ms  / 100 = intervals
-    qDebug()<<"time:"<< time*60*10;
+//    qDebug()<<"time:"<< time*60*10;
     percentTimer_->start();
     percent_=0;
 
@@ -92,7 +92,7 @@ void ExperimentController::stopExperiment(){
 
 void ExperimentController::tic(){
     percent_++;
-    qDebug()<<"tic: "<<percent_;
+//    qDebug()<<"tic: "<<percent_;
     emit percentComplete(percent_);
 }
 

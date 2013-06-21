@@ -60,7 +60,7 @@ Dynamixel::Dynamixel(QDomNode confignode, QObject *parent) :
 
 
    // strcpy(serialNumber_,"AD01UY23");//"A600cUyt"
-    qDebug()<< "name:"<< serialNumber_;
+//    qDebug()<< "name:"<< serialNumber_;
 }
 
 Dynamixel::~Dynamixel(){
@@ -130,7 +130,7 @@ float  Dynamixel::getcountsPerRev(){
 int Dynamixel::speedToInternalSpeed(float speedInMMperMin){
     int dir=speedInMMperMin/fabs(speedInMMperMin);
     float absspeedinmmpermin = fabs(speedInMMperMin);
-    qDebug()<<"dir: "<<dir;
+//    qDebug()<<"dir: "<<dir;
 
     if(dir>0){ //CW
         return floor((alphaCW_*absspeedinmmpermin+betaCW_));
