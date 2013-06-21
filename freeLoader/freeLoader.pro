@@ -30,7 +30,6 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h\
         ftd2xx.h\
         motor_funcs.h\
-        tic_toc.h \
     testdata.h \
     dynamixel.h \
     loadcell.h \
@@ -57,4 +56,5 @@ UI_DIR = ui
 
 OTHER_FILES += \
     default.config \
+    mx-64.config\
     todos.txt

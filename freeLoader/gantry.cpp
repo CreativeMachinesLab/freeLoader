@@ -58,7 +58,7 @@ Gantry::Gantry(QDomNode configfile, QObject *parent) :
 
     dyna = new Dynamixel(dynaConfig, this);
     cell = new LoadCell(cellConfig,this);
-    init_timer();
+
 
     dyna->connect();
     cell->open();

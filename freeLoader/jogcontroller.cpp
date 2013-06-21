@@ -1,7 +1,8 @@
 #include "jogcontroller.h"
-#include "tic_toc.h"
+
 #include <math.h>
 #include <QDebug>
+#include <QDateTime>
 
 JogController::JogController(Gantry *gant, QObject *parent) :
     QObject(parent),speed_(1.0), currDirection_(1), lastState_(2,0)
@@ -108,7 +109,8 @@ void JogController::startMove(){
     gant_->dyna->setSpeed(speed_*currDirection_);
     qDebug()<<"starting move";
     float angle= gant_->dyna->getAngle();
-    float time = (float)milliseconds();
+    starttime_ = QDateTime::currentMSecsSinceEpoch();
+    float time = 0;//(float)milliseconds();
     QVector<float> state(2,0);
     state[0] = time;
     state[1] = angle;
@@ -132,7 +134,8 @@ void JogController::updateState(){
     if(gant_->cell->isInitialized()){
          load = gant_->cell->readLoad();
     }
-    float time = (float)milliseconds();
+    qint64 t=QDateTime::currentMSecsSinceEpoch();
+    float time = t-starttime_;
     QVector<float> state(2,0);
     state[0] = time;
     state[1] = angle;

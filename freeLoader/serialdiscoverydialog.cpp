@@ -27,7 +27,7 @@ SerialDiscoveryDialog::SerialDiscoveryDialog(QWidget *parent) :
        //List device serial numbers
         DWORD devIndex;
         char Buffer [(int)numDevs][64]; // more than enough room, maximum 3 USB to serial devices
-        for(int i=0;i<numDevs;i++){ //for each device detected
+        for(uint i=0;i<numDevs;i++){ //for each device detected
             devIndex = i;
             ftStatus = FT_ListDevices((PVOID)devIndex,Buffer[i],FT_LIST_BY_INDEX|FT_OPEN_BY_SERIAL_NUMBER);
             if (ftStatus == FT_OK)

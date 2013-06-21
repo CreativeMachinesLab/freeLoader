@@ -5,9 +5,9 @@
 #include <math.h>
 Dynamixel::Dynamixel(QDomNode confignode, QObject *parent) :
     QObject(parent),initialized_(false), motorNumber_(1),countsPerRevolution_(1005),
-    betaCW_(-39.7760880746),alphaCW_(0.0362830709),betaCCW_(0.0348805410),alphaCCW_(-1.4641653467),
-    dzFloor_(5),dzCeiling_(995),maxSpeedCW_(2045),minSpeedCW_(1025),
-    maxSpeedCCW_(1022),minSpeedCCW_(2)
+    betaCW_(1024),alphaCW_(15.16),betaCCW_(0),alphaCCW_(15.16),
+    dzFloor_(5),dzCeiling_(995),maxSpeedCW_(1492),minSpeedCW_(1025),
+    maxSpeedCCW_(500),minSpeedCCW_(2)
 {
     // LOAD CONFIG FILE
 
@@ -133,7 +133,7 @@ int Dynamixel::speedToInternalSpeed(float speedInMMperMin){
     qDebug()<<"dir: "<<dir;
 
     if(dir>0){ //CW
-        return floor((alphaCCW_*absspeedinmmpermin+betaCW_));
+        return floor((alphaCW_*absspeedinmmpermin+betaCW_));
     }else{           //CCW
         return floor((alphaCCW_*absspeedinmmpermin+betaCCW_));// TODO FORMULA IS WRONG!!!!
     }
@@ -177,7 +177,12 @@ void Dynamixel::setSpeed(float mmPerMin){ // Sets the speed of the unit and runs
         qDebug()<<"Got set speed "<< mmPerMin << "while not initialized";
         return;
     }
-    int speed = speedToInternalSpeed(mmPerMin);
+    int speed;
+    if (mmPerMin==0){
+        speed=mmPerMin;
+    }else{
+        speed = speedToInternalSpeed(mmPerMin);
+    }
     motor_spin(ftHandleDYNA_,motorNumber_,speed);
     qDebug()<<"Speed: "<<speed;
 }

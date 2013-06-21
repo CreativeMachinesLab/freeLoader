@@ -58,7 +58,7 @@ void ExperimentController::startExperiment(){
         break;
     case kReading:
         if (kTime==condi_){
-            stopMove();
+            move(0,time,1);
             speed_=0;
             break;
         }
