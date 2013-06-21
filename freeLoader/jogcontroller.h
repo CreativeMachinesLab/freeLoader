@@ -45,6 +45,7 @@ private:
     int currDirection_; //added by Ethan
     QVector<float> lastState_;
     qint64 starttime_;
+    float startposition_;
 };
 
 #endif // JOGCONTROLLER_H

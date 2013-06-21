@@ -56,8 +56,23 @@ float JogController::calculateCurrentPosition(QVector<float> state ){
     float dPosAbs;  //the absolute value of position travelled, useful when extrapolating through deadzone
 
     if((currAngle>dzFloor)&&(currAngle<dzCeiling)&&(lastAngle>dzFloor)&&(lastAngle<dzCeiling)){ //if everything is normal
-        dAngle=currAngle-lastAngle;
+
+        if(currDirection_<0){ //counterclockwise
+            if(currAngle>lastAngle){//normal
+             dAngle=-(currAngle-lastAngle);
+            }else{
+             dAngle=-(currAngle+360-lastAngle);
+            }
+        }else{ //clockwise
+            if(currAngle<lastAngle){//normal
+             dAngle=lastAngle-currAngle;
+            }else{
+             dAngle=lastAngle+360-currAngle;
+            }
+        }
         dPos=dAngle/degreesPermm;
+
+
     }else{ //if either end is in the deadzone, then we use the motor spin speed to extrapolate dPos
         dTime=currTime-lastTime;
         dPosAbs=dTime*speed_;  //speed is in mm/min, time is in min
@@ -110,6 +125,7 @@ void JogController::startMove(){
     qDebug()<<"starting move";
     float angle= gant_->dyna->getAngle();
     starttime_ = QDateTime::currentMSecsSinceEpoch();
+    startposition_=gant_->position;
     float time = 0;//(float)milliseconds();
     QVector<float> state(2,0);
     state[0] = time;
@@ -145,7 +161,7 @@ void JogController::updateState(){
 
     QVector<float> datapoint(3,0);
     datapoint[0]=time;
-    datapoint[1]=position;
+    datapoint[1]=position-startposition_;
     datapoint[2]=load;
 
     gant_->position=position;

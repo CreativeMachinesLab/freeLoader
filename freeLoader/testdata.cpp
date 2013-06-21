@@ -22,9 +22,8 @@ void TestData::clearData(){
 }
 
 void TestData::addData(QVector<float> datapoint){
-    if(datapoint.size()==3){
-        data_.append(datapoint);
-    }
+    if(datapoint.size()!=3){return;}
+    data_.append(datapoint);
 }
 
 void TestData::addData(int time, float mm, float newtons){
