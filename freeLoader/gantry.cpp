@@ -39,7 +39,8 @@ Gantry::Gantry(QDomNode configfile, QObject *parent) :
                     if ("mmperrev"==lchild.nodeName().toLower()) {
                             mmPerRev = lchild.firstChild().nodeValue().toDouble();
                     }else if("updaterate"==lchild.nodeName().toLower()){
-                            updateIntervalInMS = lchild.firstChild().nodeValue().toInt();
+                            updateIntervalInMS = (int) (1000.0 / lchild.firstChild().nodeValue().toFloat());
+                            qDebug()<<"hz: "<<lchild.firstChild().nodeValue().toFloat()<< "\tms:"<< updateIntervalInMS;
                     }
                 }
 

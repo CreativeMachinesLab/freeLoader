@@ -172,6 +172,23 @@ bool LoadCell::open(){
         return false;
     }
 
+    //Write O0W1<CR> to the port (this sends a bad load but prepares the good load for sending)
+    if(!WriteFile(hSerial_, "O0W1\r", 5, &dwBytesWrite, NULL)){
+        emit failedToOpen();
+        qDebug() << "\n\n error occurred writing O0W1<CR> to port";
+    }
+
+
+
+    //Read load cell input buffer and discard
+    char SzBuff[13] = {0};
+    dwBytesRead = 0;
+    if(!ReadFile(hSerial_, SzBuff, 12, &dwBytesRead, NULL)){
+        emit failedToOpen();
+        qDebug() << "error occurred reading the load cell input buffer";
+    }
+
+
     initialized_=true;
     emit opened();
     qDebug()<<"Opened Load Cell ";
@@ -188,21 +205,21 @@ float LoadCell::readLoad(){
     DWORD dwBytesRead = 0;
 
 
-    //Write O0W1<CR> to the port (this sends a bad load but prepares the good load for sending)
-    if(!WriteFile(hSerial_, "O0W1\r", 5, &dwBytesWrite, NULL)){
-        emit failedToRead();
-        qDebug() << "\n\n error occurred writing O0W1<CR> to port";
-    }
+    //    //Write O0W1<CR> to the port (this sends a bad load but prepares the good load for sending)
+    //    if(!WriteFile(hSerial_, "O0W1\r", 5, &dwBytesWrite, NULL)){
+    //        emit failedToRead();
+    //        qDebug() << "\n\n error occurred writing O0W1<CR> to port";
+    //    }
 
 
 
-    //Read load cell input buffer and discard
-    char SzBuff[13] = {0};
-    dwBytesRead = 0;
-    if(!ReadFile(hSerial_, SzBuff, 12, &dwBytesRead, NULL)){
-        emit failedToRead();
-        qDebug() << "error occurred reading the load cell input buffer";
-    }
+    //    //Read load cell input buffer and discard
+    //    char SzBuff[13] = {0};
+    //    dwBytesRead = 0;
+    //    if(!ReadFile(hSerial_, SzBuff, 12, &dwBytesRead, NULL)){
+    //        emit failedToRead();
+    //        qDebug() << "error occurred reading the load cell input buffer";
+    //    }
 
 
     //Write O0W1<CR> to the port (this sends the good load and prepares a the bad one for next loop)

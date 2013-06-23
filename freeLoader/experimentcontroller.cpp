@@ -33,7 +33,8 @@ void ExperimentController::startExperiment(){
     }
     startposition_=gant_->position;
 
-
+    //clear buffer of loadcell
+    gant_->cell->readLoad();
 
     float time=0;
     if(kTime==condi_){

@@ -13,6 +13,7 @@ JogController::JogController(Gantry *gant, QObject *parent) :
 
     stoptimer_->setSingleShot(true);
     updatetimer_->setInterval(gant->updateIntervalInMS);
+    qDebug()<<"set update time in ms:"<<updatetimer_->interval();
     connect(updatetimer_,SIGNAL(timeout()),this,SLOT(updateState()));
     connect(stoptimer_,SIGNAL(timeout()),this,SLOT(stopMove()));
 }
