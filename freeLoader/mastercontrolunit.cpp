@@ -62,7 +62,7 @@ void MasterControlUnit::setConfig(QString filename){
         failedToOpenLoadCell();
     }
 
-    if( !( gant_->dyna->isInitialized() && gant_->cell->isInitialized() ) && (true!=TESTING)){
+    if( !( gant_->dyna->isInitialized() || gant_->cell->isInitialized() ) && (true!=TESTING)){
         QTimer::singleShot(0,this,SLOT(promtForConfig()));
         return;
     }
