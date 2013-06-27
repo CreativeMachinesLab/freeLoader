@@ -15,9 +15,11 @@ public:
 
     void setSymbol( QwtSymbol * );
     void setSamples( const QVector<QPointF> &samples );
-
+    void setAttribute( const QVector<QPointF> &samples );
+    void updateCurve();
 private:
     QwtPlotCurve *d_curve;
+
 };
 
 #endif // _PLOT_H_

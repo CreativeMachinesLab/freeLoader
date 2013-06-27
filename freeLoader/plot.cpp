@@ -5,6 +5,11 @@
 #include <qwt_picker_machine.h>
 #include <qwt_plot_curve.h>
 
+#include <qwt_plot.h>
+#include <qwt_interval.h>
+#include <qwt_system_clock.h>
+#include "curvedata.h"
+
 class DistancePicker: public QwtPlotPicker
 {
 public:
@@ -53,7 +58,7 @@ Plot::Plot( QWidget *parent ):
 
     // when using QwtPlotCurve::ImageBuffer simple dots can be
     // rendered in parallel on multicore systems.
-    d_curve->setRenderThreadCount( 0 ); // 0: use QThread::idealThreadCount()
+    d_curve->setRenderThreadCount( 1 ); // 0: use QThread::idealThreadCount()
 
     d_curve->attach( this );
 
@@ -82,10 +87,19 @@ void Plot::setSymbol( QwtSymbol *symbol )
     }
 }
 
+void Plot::setAttribute(  const QVector<QPointF> &samples )
+{
+    qDebug()<<"called setAtt in plot";
+    d_curve->setPaintAttribute(
+        QwtPlotCurve::ImageBuffer, samples.size() > 1000 );
+}
+
 void Plot::setSamples( const QVector<QPointF> &samples )
 {
-    d_curve->setPaintAttribute( 
-        QwtPlotCurve::ImageBuffer, samples.size() > 1000 );
-
+//    qDebug()<<"called setSamples in plot";
+//    d_curve->setPaintAttribute(
+//        QwtPlotCurve::ImageBuffer, samples.size() > 1000 );
+//    qDebug()<<"set paint attribute, size"<<samples.size();
     d_curve->setSamples( samples );
 }
+

@@ -75,7 +75,7 @@ signals:
     void jogSpeedChanged(float f);
 
 private:
-    void setSamples( int samples );
+    void setSamples( );
 
     Ui::MainWindow *ui;
     float minSpeed_;
@@ -85,6 +85,7 @@ private:
     bool testToggle_;
 
     Plot *d_plot;
+    QPolygonF _samples;
 };
 
 #endif // MAINWINDOW_H

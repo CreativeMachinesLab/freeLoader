@@ -30,7 +30,9 @@ SOURCES += main.cpp\
     mastercontrolunit.cpp \
     configdialog.cpp \
     serialdiscoverydialog.cpp\
-    plot.cpp
+    plot.cpp\
+    curvedata.cpp\
+    signaldata.cpp
 
 
 HEADERS  += mainwindow.h\
@@ -46,7 +48,8 @@ HEADERS  += mainwindow.h\
     mastercontrolunit.h \
     configdialog.h \
     serialdiscoverydialog.h\
-    plot.h
+    plot.h\
+    signaldata.h
 
 
 FORMS    += mainwindow.ui \

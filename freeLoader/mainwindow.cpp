@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QTextStream>
 #include <qmath.h>
-
+#include <QDebug>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),minSpeed_(0.1),maxSpeed_(30.0),ticksPerMMPerMin_(1000),jogToggle_(true),testToggle_(true)
@@ -87,14 +87,14 @@ void MainWindow::setSpeedMax(float max){
 void MainWindow::testStarted(){
     ui->stackedWidget->setCurrentIndex(1);
     ui->dataPlainTextEdit->clear();
-
+    ui->scatterPlot->removeWidget(d_plot);
+    _samples.clear();
     d_plot = new Plot( this );
-    d_plot->setTitle( "Scatter Plot" );
-    //setCentralWidget( d_plot );
-   //QHBoxLayout *scatterPlot = new QHBoxLayout( this );
-    ui->scatterPlot->addWidget( d_plot);
+    d_plot->setTitle( "Force (N) versus Displacement (mm)" );
 
-    setSamples(1000000);
+    ui->scatterPlot->addWidget( d_plot);
+;
+
 
     disableJog(true);
     disableTestSettings(true);
@@ -102,7 +102,7 @@ void MainWindow::testStarted(){
 }
 void MainWindow::testEnded(){
     ui->stackedWidget->setCurrentIndex(0);
-    ui->scatterPlot->removeWidget(d_plot);
+    delete d_plot;
     disableJog(false);
     disableTestSettings(false);
     disableTesting(true);
@@ -119,12 +119,25 @@ void MainWindow::serialDiscovery(){
 
 void MainWindow::addPoint(QVector<float> point){
     if(point.size()<3){return;}
+
     QString toadd="\n";
     QTextStream ss(&toadd,QIODevice::WriteOnly);
     ss<<QString::number(point[0])<<",\t"
       <<QString::number(point[1])<<",\t"
       <<QString::number(point[2]);
-    //ui->dataPlainTextEdit->appendPlainText(toadd);
+    ui->dataPlainTextEdit->appendPlainText(toadd);
+
+    const double pos=point[1];
+    const double force=point[2];
+
+    _samples += QPointF( pos, force );
+
+    if(_samples.size()%10==0){ //refresh plot after ten points
+    d_plot->setAttribute( _samples);
+
+    d_plot->setSamples( _samples );
+    d_plot->replot();
+    }
 
 }
 
@@ -229,20 +242,21 @@ static double randomValue()
 }
 
 
-void MainWindow::setSamples( int numPoints )
+void MainWindow::setSamples()
 {
-    QPolygonF samples;
 
-    for ( int i = 0; i < numPoints; i++ )
-    {
-         double x = randomValue() * 24.0 + 1.0;
-         double y = ::log( 10.0 * ( x - 1.0 ) + 1.0 )
-            * ( randomValue() * 0.5 + 0.9 );
 
-        samples += QPointF( x, y );
-    }
+//    for ( int i = 0; i < 1000; i++ )
+//    {
+//         pos = randomValue() * 24.0 + 1.0;
+//         force = ::log( 10.0 * ( pos - 1.0 ) + 1.0 )
+//            * ( randomValue() * 0.5 + 0.9 );
 
-    d_plot->setSamples( samples );
+//        samples += QPointF( pos, force );
+//    }
+    //_samples += QPointF( pos, force );
+    qDebug()<<"Made it inside setSamples";
+    d_plot->setSamples( _samples );
 }
 
 
