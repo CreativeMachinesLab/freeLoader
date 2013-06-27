@@ -103,6 +103,7 @@ void MainWindow::testStarted(){
 void MainWindow::testEnded(){
     ui->stackedWidget->setCurrentIndex(0);
     delete d_plot;
+    _samples.clear();
     disableJog(false);
     disableTestSettings(false);
     disableTesting(true);
@@ -136,7 +137,10 @@ void MainWindow::addPoint(QVector<float> point){
     d_plot->setAttribute( _samples);
 
     d_plot->setSamples( _samples );
+
+
     d_plot->replot();
+
     }
 
 }
