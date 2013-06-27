@@ -4,7 +4,8 @@
 #include <QMainWindow>
 #include "experimentcontroller.h"
 #include "serialdiscoverydialog.h"
-
+#include "plot.h"
+#include <qmath.h>
 namespace Ui {
 class MainWindow;
 }
@@ -74,12 +75,16 @@ signals:
     void jogSpeedChanged(float f);
 
 private:
+    void setSamples( int samples );
+
     Ui::MainWindow *ui;
     float minSpeed_;
     float maxSpeed_;
     float ticksPerMMPerMin_;
     bool jogToggle_;
     bool testToggle_;
+
+    Plot *d_plot;
 };
 
 #endif // MAINWINDOW_H

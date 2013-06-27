@@ -9,6 +9,8 @@
 #include <QtXml/QDomDocument>
 #include <QDebug>
 #include "serialdiscoverydialog.h"
+#include <qwt_plot.h>
+
 
 int main(int argc, char *argv[])
 {

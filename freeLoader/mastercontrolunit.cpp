@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QtXml>
 
+
 bool TESTING = false;
 
 MasterControlUnit::MasterControlUnit(QObject *parent) :
@@ -17,6 +18,7 @@ MasterControlUnit::MasterControlUnit(QObject *parent) :
     gant_ = new Gantry(n,this);
     jog_ = new JogController(gant_,this);
     xp_ = new ExperimentController(gant_,QDateTime::currentDateTimeUtc().toString().replace(":","-")+".csv", this);
+
 
     window_->show();
 

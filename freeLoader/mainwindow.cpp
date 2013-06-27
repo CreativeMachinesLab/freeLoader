@@ -1,13 +1,15 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QTextStream>
-
+#include <qmath.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),minSpeed_(0.1),maxSpeed_(30.0),ticksPerMMPerMin_(1000),jogToggle_(true),testToggle_(true)
 {
+
     ui->setupUi(this);
+
 
     QMenu *menuFile = new QMenu("File");
     QAction *actionSerial;
@@ -85,12 +87,22 @@ void MainWindow::setSpeedMax(float max){
 void MainWindow::testStarted(){
     ui->stackedWidget->setCurrentIndex(1);
     ui->dataPlainTextEdit->clear();
+
+    d_plot = new Plot( this );
+    d_plot->setTitle( "Scatter Plot" );
+    //setCentralWidget( d_plot );
+   //QHBoxLayout *scatterPlot = new QHBoxLayout( this );
+    ui->scatterPlot->addWidget( d_plot);
+
+    setSamples(1000000);
+
     disableJog(true);
     disableTestSettings(true);
     disableTesting(false);
 }
 void MainWindow::testEnded(){
     ui->stackedWidget->setCurrentIndex(0);
+    ui->scatterPlot->removeWidget(d_plot);
     disableJog(false);
     disableTestSettings(false);
     disableTesting(true);
@@ -112,7 +124,8 @@ void MainWindow::addPoint(QVector<float> point){
     ss<<QString::number(point[0])<<",\t"
       <<QString::number(point[1])<<",\t"
       <<QString::number(point[2]);
-    ui->dataPlainTextEdit->appendPlainText(toadd);
+    //ui->dataPlainTextEdit->appendPlainText(toadd);
+
 }
 
 
@@ -209,8 +222,28 @@ void MainWindow::endClicked(){
     emit endXp();
 }
 
+static double randomValue()
+{
+    // a number between [ 0.0, 1.0 ]
+    return ( qrand() % 100000 ) / 100000.0;
+}
 
 
+void MainWindow::setSamples( int numPoints )
+{
+    QPolygonF samples;
+
+    for ( int i = 0; i < numPoints; i++ )
+    {
+         double x = randomValue() * 24.0 + 1.0;
+         double y = ::log( 10.0 * ( x - 1.0 ) + 1.0 )
+            * ( randomValue() * 0.5 + 0.9 );
+
+        samples += QPointF( x, y );
+    }
+
+    d_plot->setSamples( samples );
+}
 
 
 
