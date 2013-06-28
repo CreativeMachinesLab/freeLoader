@@ -47,14 +47,14 @@ Plot::Plot( QWidget *parent ):
 {
     canvas()->setStyleSheet(
         "border: 2px solid Black;"
-        "border-radius: 15px;"
+        "border-radius: 2px;"
         "background-color: qlineargradient( x1: 0, y1: 0, x2: 0, y2: 1,"
-            "stop: 0 LemonChiffon, stop: 1 PaleGoldenrod );"
+            "stop: White, stop: 1 White );"
     );
 
     // attach curve
     d_curve = new QwtPlotCurve( "Scattered Points" );
-    d_curve->setPen( QColor( "Purple" ) );
+    d_curve->setPen( QColor( "Black" ) );
 
     // when using QwtPlotCurve::ImageBuffer simple dots can be
     // rendered in parallel on multicore systems.
@@ -83,7 +83,7 @@ void Plot::setSymbol( QwtSymbol *symbol )
 
     if ( symbol == NULL )
     {
-        d_curve->setStyle( QwtPlotCurve::Dots );
+        d_curve->setStyle( QwtPlotCurve::Lines);
     }
 }
 

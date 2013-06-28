@@ -90,10 +90,16 @@ void MainWindow::testStarted(){
     ui->scatterPlot->removeWidget(d_plot);
     _samples.clear();
     d_plot = new Plot( this );
-    d_plot->setTitle( "Force (N) versus Displacement (mm)" );
+
+    QFont axisFont("Times",10);
+    d_plot->setAxisFont(0, axisFont  );
+    d_plot->setAxisFont(2, axisFont  );
+
+    d_plot->setAxisTitle( 0,"Force (N)" );
+    d_plot->setAxisTitle( 2,"Displacement (mm)" );
 
     ui->scatterPlot->addWidget( d_plot);
-;
+
 
 
     disableJog(true);
