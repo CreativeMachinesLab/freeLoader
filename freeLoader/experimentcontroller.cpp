@@ -6,13 +6,14 @@ bool XPTESTING=false;
 
 
 ExperimentController::ExperimentController(Gantry *gant, QString filename, QObject *parent):
-    JogController(gant, parent),type_(kTensile),condi_(kTime),interval_(0.0),percent_(0)
+    JogController(gant, parent),type_(kTensile),condi_(kTime),interval_(0.0),percent_(0),n_(1),dir_(1),cyc(0)
 {
     data_ = new TestData(filename,this);
     percentTimer_ = new QTimer();
     startposition_=gant->position;
     connect(stoptimer_,SIGNAL(timeout()),this,SLOT(stopExperiment()));
     connect(percentTimer_,SIGNAL(timeout()),this,SLOT(tic()));
+    cycletimer_ = new QTimer();
 
 }
 
@@ -36,11 +37,11 @@ void ExperimentController::startExperiment(){
     //clear buffer of loadcell
     gant_->cell->readLoad();
 
-    float time=0;
+    //float time=0;
     if(kTime==condi_){
-        time = interval_;
+        time = interval_*n_;
     }else if (kDistance==condi_){
-        time = interval_/speed_;
+        time = interval_/speed_*n_;
     }else{
         emit unableToStart();
         qDebug()<<"unknown test end condition: "<<condi_;
@@ -52,19 +53,28 @@ void ExperimentController::startExperiment(){
 //    qDebug()<< "EXP: TIME: "<<time <<" (min)";
     switch(type_){
     case kTensile:
-        move(speed_,time,1);
+        dir_=1;
+        move(speed_,time,dir_);
         break;
     case kCompression:
-        move(speed_,time,-1);
+        dir_=-1;
+        move(speed_,time,dir_);
         break;
     case kReading:
+        dir_=1;
         if (kTime==condi_){
             move(0,time,1);
             speed_=0;
             break;
         }
         qDebug()<<"Error Can only run time tests for loadcell readings";
-
+    case kCycle:
+        dir_=1;
+        cycletimer_->setInterval(time/n_*60*1000);
+        cycletimer_->start();
+        connect(cycletimer_,SIGNAL(timeout()),this,SLOT(cycle()));
+        move(speed_,time,dir_);
+        break;
     default:
         qDebug()<<"Error  with test type: "<<type_;
         emit unableToStart();
@@ -84,6 +94,7 @@ void ExperimentController::stopExperiment(){
     stopMove();
     updateState();
     percentTimer_->stop();
+    cycletimer_->stop();
     percent_=100;
     emit percentComplete(100);
     emit experimentCompleted();
@@ -98,11 +109,20 @@ void ExperimentController::tic(){
 }
 
 
-void ExperimentController::setTestParameters(TestType type, float speed, EndCondition cond, float interval){
+void ExperimentController::cycle(){
+    //stopMove();
+    //updateState();
+    dir_=-dir_;
+    move(speed_,time,dir_);
+}
+
+
+void ExperimentController::setTestParameters(TestType type, float speed, EndCondition cond, float interval,int times){
     interval_=interval;
     condi_=cond;
     speed_=speed;
     type_=type;
+    n_ = times;
 }
 
 

@@ -97,6 +97,8 @@ void MasterControlUnit::setConfig(QString filename){
 }
 void MasterControlUnit::beginExperiment(){
     TestType type = window_->getType();
+    int n=1;
+    if (type==kCycle){n=100;}
     EndCondition cond = window_->getEndCond();
     float speed = fabs(window_->getSpeed());
     float interval = fabs(window_->getInterval());
@@ -104,7 +106,7 @@ void MasterControlUnit::beginExperiment(){
 
     delete xp_;
     xp_ = new ExperimentController(gant_,filename, this);
-    xp_->setTestParameters(type,speed,cond,interval);
+    xp_->setTestParameters(type,speed,cond,interval,n);
     connect(window_,SIGNAL(endXp()),xp_,SLOT(stopExperiment()));
     connect(xp_,SIGNAL(dataPoint(QVector<float>)),window_,SLOT(addPoint(QVector<float>)));
     connect(xp_,SIGNAL(percentComplete(int)),window_,SLOT(setPercent(int)));

@@ -7,7 +7,8 @@
 enum TestType{
     kTensile,
     kCompression,
-    kReading
+    kReading,
+    kCycle
 };
 enum EndCondition{
   kTime,
@@ -33,10 +34,12 @@ public slots:
     void setFileName(QString filename);
     void startExperiment();
     void stopExperiment();
-    void setTestParameters(TestType type, float speed, EndCondition cond, float interval);
+    void setTestParameters(TestType type, float speed, EndCondition cond, float interval, int times=1);
     //                      tensile or compresison 0-30,  time or distance,    min or mm
     void tic();
 
+private slots:
+    void cycle();
 
 private:
     TestData* data_;
@@ -46,6 +49,11 @@ private:
     float startposition_;
     QTimer *percentTimer_;
     int percent_;
+    int n_;
+    float time;
+    int cyc;
+    int dir_;
+    QTimer* cycletimer_;
 };
 
 /**

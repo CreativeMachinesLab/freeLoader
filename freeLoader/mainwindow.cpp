@@ -58,6 +58,7 @@ void MainWindow::disableMovementTest(bool disabled){
     ui->tensileRadioButton->setDisabled(disabled);
     ui->compressionRadioButton->setDisabled(disabled);
     ui->distanceRadioButton->setDisabled(disabled);
+    ui->cycleRadioButton->setDisabled(disabled);
 }
 
 //set at dyna connect
@@ -121,6 +122,8 @@ TestType MainWindow::getType(){
         return kTensile;
     }else if(ui->compressionRadioButton->isChecked()){
         return kCompression;
+    }else if(ui->cycleRadioButton->isChecked()){
+        return kCycle;
     }
     return kReading;
 }
